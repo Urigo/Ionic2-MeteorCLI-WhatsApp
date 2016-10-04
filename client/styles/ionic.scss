@@ -1,0 +1,280 @@
+@charset "UTF-8";
+
+@import "{}/node_modules/ionicons/dist/scss/ionicons.scss";
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+
+$text-color:        #000;
+$background-color:  #fff;
+
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+        primary:    #387ef5,
+        secondary:  #32db64,
+        danger:     #f53d3d,
+        light:      #f4f4f4,
+        dark:       #222,
+        favorite:   #69BB7B
+);
+
+// Components
+// --------------------------------------------------
+
+@import
+"{}/node_modules/ionic-angular/components/action-sheet/action-sheet",
+"{}/node_modules/ionic-angular/components/action-sheet/action-sheet.ios",
+"{}/node_modules/ionic-angular/components/action-sheet/action-sheet.md",
+"{}/node_modules/ionic-angular/components/action-sheet/action-sheet.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/alert/alert",
+"{}/node_modules/ionic-angular/components/alert/alert.ios",
+"{}/node_modules/ionic-angular/components/alert/alert.md",
+"{}/node_modules/ionic-angular/components/alert/alert.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/app/app",
+"{}/node_modules/ionic-angular/components/app/app.ios",
+"{}/node_modules/ionic-angular/components/app/app.md",
+"{}/node_modules/ionic-angular/components/app/app.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/backdrop/backdrop";
+
+@import
+"{}/node_modules/ionic-angular/components/badge/badge",
+"{}/node_modules/ionic-angular/components/badge/badge.ios",
+"{}/node_modules/ionic-angular/components/badge/badge.md",
+"{}/node_modules/ionic-angular/components/badge/badge.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/button/button",
+"{}/node_modules/ionic-angular/components/button/button-icon",
+"{}/node_modules/ionic-angular/components/button/button.ios",
+"{}/node_modules/ionic-angular/components/button/button.md",
+"{}/node_modules/ionic-angular/components/button/button.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/card/card",
+"{}/node_modules/ionic-angular/components/card/card.ios",
+"{}/node_modules/ionic-angular/components/card/card.md",
+"{}/node_modules/ionic-angular/components/card/card.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/checkbox/checkbox.ios",
+"{}/node_modules/ionic-angular/components/checkbox/checkbox.md",
+"{}/node_modules/ionic-angular/components/checkbox/checkbox.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/chip/chip",
+"{}/node_modules/ionic-angular/components/chip/chip.ios",
+"{}/node_modules/ionic-angular/components/chip/chip.md",
+"{}/node_modules/ionic-angular/components/chip/chip.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/content/content",
+"{}/node_modules/ionic-angular/components/content/content.ios",
+"{}/node_modules/ionic-angular/components/content/content.md",
+"{}/node_modules/ionic-angular/components/content/content.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/datetime/datetime",
+"{}/node_modules/ionic-angular/components/datetime/datetime.ios",
+"{}/node_modules/ionic-angular/components/datetime/datetime.md",
+"{}/node_modules/ionic-angular/components/datetime/datetime.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/fab/fab",
+"{}/node_modules/ionic-angular/components/fab/fab.ios",
+"{}/node_modules/ionic-angular/components/fab/fab.md",
+"{}/node_modules/ionic-angular/components/fab/fab.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/grid/grid";
+
+@import
+"{}/node_modules/ionic-angular/components/icon/icon",
+"{}/node_modules/ionic-angular/components/icon/icon.ios",
+"{}/node_modules/ionic-angular/components/icon/icon.md",
+"{}/node_modules/ionic-angular/components/icon/icon.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/img/img";
+
+@import
+"{}/node_modules/ionic-angular/components/infinite-scroll/infinite-scroll";
+
+@import
+"{}/node_modules/ionic-angular/components/input/input",
+"{}/node_modules/ionic-angular/components/input/input.ios",
+"{}/node_modules/ionic-angular/components/input/input.md",
+"{}/node_modules/ionic-angular/components/input/input.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/item/item",
+"{}/node_modules/ionic-angular/components/item/item-media",
+"{}/node_modules/ionic-angular/components/item/item-reorder",
+"{}/node_modules/ionic-angular/components/item/item-sliding",
+"{}/node_modules/ionic-angular/components/item/item.ios",
+"{}/node_modules/ionic-angular/components/item/item.md",
+"{}/node_modules/ionic-angular/components/item/item.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/label/label",
+"{}/node_modules/ionic-angular/components/label/label.ios",
+"{}/node_modules/ionic-angular/components/label/label.md",
+"{}/node_modules/ionic-angular/components/label/label.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/list/list",
+"{}/node_modules/ionic-angular/components/list/list.ios",
+"{}/node_modules/ionic-angular/components/list/list.md",
+"{}/node_modules/ionic-angular/components/list/list.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/loading/loading",
+"{}/node_modules/ionic-angular/components/loading/loading.ios",
+"{}/node_modules/ionic-angular/components/loading/loading.md",
+"{}/node_modules/ionic-angular/components/loading/loading.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/menu/menu",
+"{}/node_modules/ionic-angular/components/menu/menu.ios",
+"{}/node_modules/ionic-angular/components/menu/menu.md",
+"{}/node_modules/ionic-angular/components/menu/menu.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/modal/modal",
+"{}/node_modules/ionic-angular/components/modal/modal.ios",
+"{}/node_modules/ionic-angular/components/modal/modal.md",
+"{}/node_modules/ionic-angular/components/modal/modal.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/picker/picker",
+"{}/node_modules/ionic-angular/components/picker/picker.ios",
+"{}/node_modules/ionic-angular/components/picker/picker.md",
+"{}/node_modules/ionic-angular/components/picker/picker.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/popover/popover",
+"{}/node_modules/ionic-angular/components/popover/popover.ios",
+"{}/node_modules/ionic-angular/components/popover/popover.md",
+"{}/node_modules/ionic-angular/components/popover/popover.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/radio/radio.ios",
+"{}/node_modules/ionic-angular/components/radio/radio.md",
+"{}/node_modules/ionic-angular/components/radio/radio.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/range/range",
+"{}/node_modules/ionic-angular/components/range/range.ios",
+"{}/node_modules/ionic-angular/components/range/range.md",
+"{}/node_modules/ionic-angular/components/range/range.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/refresher/refresher";
+
+@import
+"{}/node_modules/ionic-angular/components/scroll/scroll";
+
+@import
+"{}/node_modules/ionic-angular/components/searchbar/searchbar",
+"{}/node_modules/ionic-angular/components/searchbar/searchbar.ios",
+"{}/node_modules/ionic-angular/components/searchbar/searchbar.md",
+"{}/node_modules/ionic-angular/components/searchbar/searchbar.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/segment/segment",
+"{}/node_modules/ionic-angular/components/segment/segment.ios",
+"{}/node_modules/ionic-angular/components/segment/segment.md",
+"{}/node_modules/ionic-angular/components/segment/segment.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/select/select",
+"{}/node_modules/ionic-angular/components/select/select.ios",
+"{}/node_modules/ionic-angular/components/select/select.md",
+"{}/node_modules/ionic-angular/components/select/select.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/show-hide-when/show-hide-when";
+
+@import
+"{}/node_modules/ionic-angular/components/slides/slides";
+
+@import
+"{}/node_modules/ionic-angular/components/spinner/spinner",
+"{}/node_modules/ionic-angular/components/spinner/spinner.ios",
+"{}/node_modules/ionic-angular/components/spinner/spinner.md",
+"{}/node_modules/ionic-angular/components/spinner/spinner.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/tabs/tabs",
+"{}/node_modules/ionic-angular/components/tabs/tabs.ios",
+"{}/node_modules/ionic-angular/components/tabs/tabs.md",
+"{}/node_modules/ionic-angular/components/tabs/tabs.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/toast/toast",
+"{}/node_modules/ionic-angular/components/toast/toast.ios",
+"{}/node_modules/ionic-angular/components/toast/toast.md",
+"{}/node_modules/ionic-angular/components/toast/toast.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/toggle/toggle.ios",
+"{}/node_modules/ionic-angular/components/toggle/toggle.md",
+"{}/node_modules/ionic-angular/components/toggle/toggle.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/toolbar/toolbar",
+"{}/node_modules/ionic-angular/components/toolbar/toolbar-button",
+"{}/node_modules/ionic-angular/components/toolbar/toolbar.ios",
+"{}/node_modules/ionic-angular/components/toolbar/toolbar.md",
+"{}/node_modules/ionic-angular/components/toolbar/toolbar.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/typography/typography",
+"{}/node_modules/ionic-angular/components/typography/typography.ios",
+"{}/node_modules/ionic-angular/components/typography/typography.md",
+"{}/node_modules/ionic-angular/components/typography/typography.wp";
+
+@import
+"{}/node_modules/ionic-angular/components/virtual-scroll/virtual-scroll";
+
+
+// Platforms
+// --------------------------------------------------
+@import
+"{}/node_modules/ionic-angular/platform/cordova",
+"{}/node_modules/ionic-angular/platform/cordova.ios",
+"{}/node_modules/ionic-angular/platform/cordova.md",
+"{}/node_modules/ionic-angular/platform/cordova.wp";
+
+
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/v2/theming/
+@import "{}/node_modules/ionic-angular/themes/ionic.globals.scss";
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "{}/node_modules/ionic-angular/themes/ionic.theme.default.scss";
+
