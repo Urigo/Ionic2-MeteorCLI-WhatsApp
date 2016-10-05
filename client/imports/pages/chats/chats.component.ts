@@ -3,10 +3,15 @@ import template from "./chats.component.html"
 import {Observable} from "rxjs";
 import {Chat} from "../../../../both/models/chat.model";
 import * as moment from "moment";
+import style from "./chats.component.scss";
+
 
 @Component({
   selector: "chats",
-  template
+  template,
+  styles: [
+    style
+  ]
 })
 export class ChatsComponent {
   chats: Observable<Chat[]>;
