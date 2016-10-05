@@ -4,7 +4,7 @@ import {ChatsComponent} from "../chats/chats.component";
 @Component({
   selector: "tabs-container",
   template: `
-  <ion-tabs>
+  <ion-tabs color="whatsapp">
     <ion-tab [root]="chatsRoot" tabTitle="Chats" tabIcon="chatboxes"></ion-tab>
     <ion-tab tabTitle="Contacts" tabIcon="contacts"></ion-tab>
     <ion-tab tabTitle="Favorites" tabIcon="star"></ion-tab>
