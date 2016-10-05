@@ -35,6 +35,7 @@
     "ionicons": "^3.0.0",
     "ionic-native": "^2.0.3",
     "meteor-rxjs": "^0.4.5",
+    "moment": "^2.15.1",
     "reflect-metadata": "0.1.8",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "0.6.26"
