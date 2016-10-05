@@ -38,6 +38,7 @@
     "angular2-meteor": "0.7.0",
     "angular2-meteor-polyfills": "0.1.1",
     "angular2-meteor-tests-polyfills": "0.0.2",
+    "angular2-moment": "^1.0.0-beta.3",
     "ionic-angular": "^2.0.0-rc.0",
     "ionic-native": "^2.0.3",
     "ionicons": "^3.0.0",
