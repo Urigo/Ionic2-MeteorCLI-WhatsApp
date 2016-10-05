@@ -3,6 +3,7 @@ import { AppComponent } from './app.component';
 import { IonicApp, IonicModule } from "ionic-angular";
 import {TabsContainerComponent} from "../pages/tabs-container/tabs-container.component";
 import {ChatsComponent} from "../pages/chats/chats.component";
+import {MomentModule} from "angular2-moment";
 
 @NgModule({
   // Components, Pipes, Directive
@@ -23,7 +24,8 @@ import {ChatsComponent} from "../pages/chats/chats.component";
   ],
   // Modules
   imports: [
-    IonicModule.forRoot(AppComponent)
+    IonicModule.forRoot(AppComponent),
+    MomentModule
   ],
   // Main Component
   bootstrap: [ IonicApp ]
