@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {NavParams} from "ionic-angular";
 import {Chat} from "../../../../both/models/chat.model";
 import {Messages} from "../../../../both/collections/messages.collection";
@@ -15,12 +15,13 @@ import {MeteorObservable} from "meteor-rxjs";
     style
   ]
 })
-export class MessagesPage implements OnInit {
+export class MessagesPage implements OnInit, OnDestroy {
   private selectedChat: Chat;
   private title: string;
   private picture: string;
   private messages: Observable<Message[]>;
   private message = "";
+  private autoScroller: MutationObserver;
 
   constructor(navParams: NavParams) {
     this.selectedChat = <Chat>navParams.get('chat');
@@ -42,6 +43,32 @@ export class MessagesPage implements OnInit {
 
       return messages;
     });
+
+    this.autoScroller = this.autoScroll();
+  }
+
+  ngOnDestroy() {
+    this.autoScroller.disconnect();
+  }
+
+  private get messagesPageContent(): Element {
+    return document.querySelector('.messages-page-content');
+  }
+
+  private get messagesPageFooter(): Element {
+    return document.querySelector('.messages-page-footer');
+  }
+
+  private get messagesList(): Element {
+    return this.messagesPageContent.querySelector('.messages');
+  }
+
+  private get messageEditor(): HTMLInputElement {
+    return <HTMLInputElement>this.messagesPageFooter.querySelector('.message-editor');
+  }
+
+  private get scroller(): Element {
+    return this.messagesList.querySelector('.scroll-content');
   }
 
   onInputKeypress({keyCode}: KeyboardEvent): void {
@@ -54,5 +81,21 @@ export class MessagesPage implements OnInit {
     MeteorObservable.call('addMessage', this.selectedChat._id, this.message).zone().subscribe(() => {
       this.message = '';
     });
+  }
+
+  autoScroll(): MutationObserver {
+    const autoScroller = new MutationObserver(this.scrollDown.bind(this));
+
+    autoScroller.observe(this.messagesList, {
+      childList: true,
+      subtree: true
+    });
+
+    return autoScroller;
+  }
+
+  scrollDown(): void {
+    this.scroller.scrollTop = this.scroller.scrollHeight;
+    this.messageEditor.focus();
   }
 }
