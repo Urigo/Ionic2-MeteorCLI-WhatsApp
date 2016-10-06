@@ -11,7 +11,7 @@
 
 <ion-content class="chats-page-content">
   <ion-list class="chats">
-    <button ion-item *ngFor="let chat of chats | async" class="chat">
+    <button ion-item *ngFor="let chat of chats | async" class="chat" (click)="showMessages(chat)">
       <img class="chat-picture" [src]="chat.picture">
 
       <div class="chat-info">
