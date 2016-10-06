@@ -8,6 +8,7 @@ import {Chats} from "../../../../both/collections/chats.collection";
 import {Message} from "../../../../both/models/message.model";
 import {Messages} from "../../../../both/collections/messages.collection";
 import {NavController} from "ionic-angular";
+import {MessagesPage} from "../chat/messages-page.component";
 
 @Component({
   selector: "chats",
