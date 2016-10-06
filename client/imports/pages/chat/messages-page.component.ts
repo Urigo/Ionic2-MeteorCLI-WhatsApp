@@ -5,10 +5,14 @@ import {Messages} from "../../../../both/collections/messages.collection";
 import {Observable} from "rxjs";
 import {Message} from "../../../../both/models/message.model";
 import template from "./messages-page.component.html";
+import * as style from "./messages-page.component.scss";
 
 @Component({
   selector: "messages-page",
-  template
+  template,
+  styles: [
+    style.innerHTML
+  ]
 })
 export class MessagesPage implements OnInit {
   private selectedChat: Chat;
