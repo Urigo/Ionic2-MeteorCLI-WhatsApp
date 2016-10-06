@@ -7,6 +7,7 @@ import style from "./chats.component.scss";
 import {Chats} from "../../../../both/collections/chats.collection";
 import {Message} from "../../../../both/models/message.model";
 import {Messages} from "../../../../both/collections/messages.collection";
+import {NavController} from "ionic-angular";
 
 @Component({
   selector: "chats",
@@ -18,7 +19,7 @@ import {Messages} from "../../../../both/collections/messages.collection";
 export class ChatsComponent implements OnInit {
   chats: Observable<Chat[]>;
 
-  constructor() {
+  constructor(private navCtrl: NavController) {
 
   }
 
@@ -39,5 +40,9 @@ export class ChatsComponent implements OnInit {
           )
         )
       ).zone();
+  }
+
+  showMessages(chat): void {
+    this.navCtrl.push(MessagesPage, {chat});
   }
 }
