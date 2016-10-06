@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {Message} from "../../../../both/models/message.model";
 import template from "./messages-page.component.html";
 import style from "./messages-page.component.scss";
+import {MeteorObservable} from "meteor-rxjs";
 
 @Component({
   selector: "messages-page",
@@ -19,6 +20,7 @@ export class MessagesPage implements OnInit {
   private title: string;
   private picture: string;
   private messages: Observable<Message[]>;
+  private message = "";
 
   constructor(navParams: NavParams) {
     this.selectedChat = <Chat>navParams.get('chat');
@@ -39,6 +41,18 @@ export class MessagesPage implements OnInit {
       });
 
       return messages;
+    });
+  }
+
+  onInputKeypress({keyCode}: KeyboardEvent): void {
+    if (keyCode == 13) {
+      this.sendMessage();
+    }
+  }
+
+  sendMessage(): void {
+    MeteorObservable.call('addMessage', this.selectedChat._id, this.message).zone().subscribe(() => {
+      this.message = '';
     });
   }
 }
