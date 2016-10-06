@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {NavParams} from "ionic-angular";
 import {Chat} from "../../../../both/models/chat.model";
 import {Messages} from "../../../../both/collections/messages.collection";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Message} from "../../../../both/models/message.model";
 import template from "./messages-page.component.html";
 import * as style from "./messages-page.component.scss";
@@ -15,12 +15,13 @@ import {MeteorObservable} from "meteor-rxjs";
     style.innerHTML
   ]
 })
-export class MessagesPage implements OnInit {
+export class MessagesPage implements OnInit, OnDestroy {
   private selectedChat: Chat;
   private title: string;
   private picture: string;
   private messages: Observable<Message[]>;
   private message = "";
+  private autoScroller: Subscription;
 
   constructor(navParams: NavParams) {
     this.selectedChat = <Chat>navParams.get('chat');
@@ -42,6 +43,38 @@ export class MessagesPage implements OnInit {
 
       return messages;
     });
+
+    this.autoScroller = MeteorObservable.autorun().subscribe(() => {
+      this.scroller.scrollTop = this.scroller.scrollHeight;
+      this.messageEditor.focus();
+    });
+  }
+
+  private get messagesPageContent(): Element {
+    return document.querySelector('.messages-page-content');
+  }
+
+  private get messagesPageFooter(): Element {
+    return document.querySelector('.messages-page-footer');
+  }
+
+  private get messagesList(): Element {
+    return this.messagesPageContent.querySelector('.messages');
+  }
+
+  private get messageEditor(): HTMLInputElement {
+    return <HTMLInputElement>this.messagesPageFooter.querySelector('.message-editor');
+  }
+
+  private get scroller(): Element {
+    return this.messagesList.querySelector('.scroll-content');
+  }
+
+  ngOnDestroy() {
+    if (this.autoScroller) {
+      this.autoScroller.unsubscribe();
+      this.autoScroller = undefined;
+    }
   }
 
   onInputKeypress({keyCode}: KeyboardEvent): void {
