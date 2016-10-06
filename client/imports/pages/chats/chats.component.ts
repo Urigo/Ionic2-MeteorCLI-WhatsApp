@@ -1,10 +1,12 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import template from "./chats.component.html"
 import {Observable} from "rxjs";
 import {Chat} from "../../../../both/models/chat.model";
 import * as moment from "moment";
 import style from "./chats.component.scss";
-
+import {Chats} from "../../../../both/collections/chats.collection";
+import {Message} from "../../../../both/models/message.model";
+import {Messages} from "../../../../both/collections/messages.collection";
 
 @Component({
   selector: "chats",
@@ -13,56 +15,29 @@ import style from "./chats.component.scss";
     style
   ]
 })
-export class ChatsComponent {
+export class ChatsComponent implements OnInit {
   chats: Observable<Chat[]>;
 
   constructor() {
-    this.chats = Observable.of([
-      {
-        _id: '0',
-        title: 'Ethan Gonzalez',
-        picture: 'https://randomuser.me/api/portraits/thumb/men/1.jpg',
-        lastMessage: {
-          content: 'You on your way?',
-          createdAt: moment().subtract(1, 'hours').toDate()
-        }
-      },
-      {
-        _id: '1',
-        title: 'Bryan Wallace',
-        picture: 'https://randomuser.me/api/portraits/thumb/lego/1.jpg',
-        lastMessage: {
-          content: 'Hey, it\'s me',
-          createdAt: moment().subtract(2, 'hours').toDate()
-        }
-      },
-      {
-        _id: '2',
-        title: 'Avery Stewart',
-        picture: 'https://randomuser.me/api/portraits/thumb/women/1.jpg',
-        lastMessage: {
-          content: 'I should buy a boat',
-          createdAt: moment().subtract(1, 'days').toDate()
-        }
-      },
-      {
-        _id: '3',
-        title: 'Katie Peterson',
-        picture: 'https://randomuser.me/api/portraits/thumb/women/2.jpg',
-        lastMessage: {
-          content: 'Look at my mukluks!',
-          createdAt: moment().subtract(4, 'days').toDate()
-        }
-      },
-      {
-        _id: '4',
-        title: 'Ray Edwards',
-        picture: 'https://randomuser.me/api/portraits/thumb/men/2.jpg',
-        lastMessage: {
-          content: 'This is wicked good ice cream.',
-          createdAt: moment().subtract(2, 'weeks').toDate()
-        }
-      }
-    ])
+
+  }
+
+  ngOnInit() {
+    this.chats = Chats
+      .find({})
+      .mergeMap<Chat[]>(chats =>
+        Observable.combineLatest(
+          ...chats.map(chat =>
+
+            Messages.find({ chatId: chat._id }, { sort: { createdAt: -1 }, limit: 1 })
+              .startWith(null)
+              .map(messages => {
+                if (messages) chat.lastMessage = messages[0];
+                return chat;
+              })
+
+          )
+        )
+      ).zone();
   }
 }
