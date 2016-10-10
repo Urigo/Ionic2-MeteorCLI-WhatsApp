@@ -6,6 +6,7 @@ import {ChatsComponent} from "../pages/chats/chats.component";
 import {MomentModule} from "angular2-moment";
 import {MessagesPage} from "../pages/chat/messages-page.component";
 import {LoginComponent} from '../pages/auth/login.component';
+import {VerificationComponent} from '../pages/auth/verification.component';
 
 @NgModule({
   // Components, Pipes, Directive
@@ -14,7 +15,8 @@ import {LoginComponent} from '../pages/auth/login.component';
     TabsContainerComponent,
     ChatsComponent,
     MessagesPage,
-    LoginComponent
+    LoginComponent,
+    VerificationComponent
   ],
   // Entry Components
   entryComponents: [
@@ -22,7 +24,8 @@ import {LoginComponent} from '../pages/auth/login.component';
     TabsContainerComponent,
     ChatsComponent,
     MessagesPage,
-    LoginComponent
+    LoginComponent,
+    VerificationComponent
   ],
   // Providers
   providers: [
