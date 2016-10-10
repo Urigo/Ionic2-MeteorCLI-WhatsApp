@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
-import {NavParams} from "ionic-angular";
+import {NavParams, PopoverController} from "ionic-angular";
 import {Meteor} from 'meteor/meteor';
 import {Chat} from "../../../../both/models/chat.model";
 import {Messages} from "../../../../both/collections/messages.collection";
@@ -7,6 +7,7 @@ import {Observable, Subscription} from "rxjs";
 import {Message} from "../../../../both/models/message.model";
 import template from "./messages-page.component.html";
 import * as style from "./messages-page.component.scss";
+import {MessagesOptionsComponent} from './messages-options.component';
 import {MeteorObservable} from "meteor-rxjs";
 
 @Component({
@@ -25,7 +26,10 @@ export class MessagesPage implements OnInit, OnDestroy {
   private message = "";
   private autoScroller: Subscription;
 
-  constructor(navParams: NavParams) {
+  constructor(
+    navParams: NavParams,
+    private popoverCtrl: PopoverController
+  ) {
     this.selectedChat = <Chat>navParams.get('chat');
     this.title = this.selectedChat.title;
     this.picture = this.selectedChat.picture;
@@ -68,6 +72,16 @@ export class MessagesPage implements OnInit, OnDestroy {
 
   private get scroller(): Element {
     return this.messagesList.querySelector('.scroll-content');
+  }
+
+  showOptions(): void {
+    const popover = this.popoverCtrl.create(MessagesOptionsComponent, {
+      chat: this.selectedChat
+    }, {
+      cssClass: 'options-popover'
+    });
+ 
+    popover.present();
   }
 
   ngOnDestroy() {
