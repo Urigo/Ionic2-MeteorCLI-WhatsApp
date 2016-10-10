@@ -5,6 +5,7 @@ import {TabsContainerComponent} from "../pages/tabs-container/tabs-container.com
 import {ChatsComponent} from "../pages/chats/chats.component";
 import {MomentModule} from "angular2-moment";
 import {MessagesPage} from "../pages/chat/messages-page.component";
+import {LoginComponent} from '../pages/auth/login.component';
 
 @NgModule({
   // Components, Pipes, Directive
@@ -12,14 +13,16 @@ import {MessagesPage} from "../pages/chat/messages-page.component";
     AppComponent,
     TabsContainerComponent,
     ChatsComponent,
-    MessagesPage
+    MessagesPage,
+    LoginComponent
   ],
   // Entry Components
   entryComponents: [
     AppComponent,
     TabsContainerComponent,
     ChatsComponent,
-    MessagesPage
+    MessagesPage,
+    LoginComponent
   ],
   // Providers
   providers: [
