@@ -10,6 +10,7 @@ import {VerificationComponent} from '../pages/auth/verification.component';
 import {ProfileComponent} from '../pages/auth/profile.component';
 import {ChatsOptionsComponent} from '../pages/chats/chats-options.component';
 import {NewChatComponent} from '../pages/chats/new-chat.component';
+import {MessagesOptionsComponent} from '../pages/chat/messages-options.component';
 
 @NgModule({
   // Components, Pipes, Directive
@@ -22,7 +23,8 @@ import {NewChatComponent} from '../pages/chats/new-chat.component';
     VerificationComponent,
     ProfileComponent,
     ChatsOptionsComponent,
-    NewChatComponent
+    NewChatComponent,
+    MessagesOptionsComponent
   ],
   // Entry Components
   entryComponents: [
@@ -34,7 +36,8 @@ import {NewChatComponent} from '../pages/chats/new-chat.component';
     VerificationComponent,
     ProfileComponent,
     ChatsOptionsComponent,
-    NewChatComponent
+    NewChatComponent,
+    MessagesOptionsComponent
   ],
   // Providers
   providers: [
