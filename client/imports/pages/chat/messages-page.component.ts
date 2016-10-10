@@ -1,5 +1,6 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
 import {NavParams} from "ionic-angular";
+import {Meteor} from 'meteor/meteor';
 import {Chat} from "../../../../both/models/chat.model";
 import {Messages} from "../../../../both/collections/messages.collection";
 import {Observable} from "rxjs";
@@ -20,6 +21,7 @@ export class MessagesPage implements OnInit, OnDestroy {
   private title: string;
   private picture: string;
   private messages: Observable<Message[]>;
+  private senderId: string;
   private message = "";
   private autoScroller: MutationObserver;
 
@@ -27,18 +29,16 @@ export class MessagesPage implements OnInit, OnDestroy {
     this.selectedChat = <Chat>navParams.get('chat');
     this.title = this.selectedChat.title;
     this.picture = this.selectedChat.picture;
+    this.senderId = Meteor.userId();
   }
 
   ngOnInit() {
-    let isEven = false;
-
     this.messages = Messages.find(
       {chatId: this.selectedChat._id},
       {sort: {createdAt: 1}}
     ).map((messages: Message[]) => {
       messages.forEach((message: Message) => {
-        message.ownership = isEven ? 'mine' : 'other';
-        isEven = !isEven;
+        message.ownership = this.senderId == message.senderId ? 'mine' : 'other';
       });
 
       return messages;
