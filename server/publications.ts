@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Chats, Messages, Users } from '../imports/collections';
+import { Chats, Messages, Pictures, Users } from '../imports/collections';
 import { Chat, Message, User } from '../imports/models';
 
 Meteor.publishComposite('users', function(
@@ -73,4 +73,16 @@ Meteor.publishComposite('chats', function(): PublishCompositeConfig<Chat> {
       }
     ]
   };
+});
+
+Meteor.publish('user', function () {
+  if (!this.userId) {
+    return;
+  }
+
+  const profile = Users.findOne(this.userId).profile || {};
+
+  return Pictures.collection.find({
+    _id: profile.pictureId
+  });
 });
