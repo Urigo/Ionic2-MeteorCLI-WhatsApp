@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
+import { Sim } from 'ionic-native';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 
@@ -7,6 +8,17 @@ import { Meteor } from 'meteor/meteor';
 export class PhoneService {
   constructor(private platform: Platform) {
 
+  }
+
+  getNumber(): Promise<string> {
+    if (!this.platform.is('cordova') ||
+      !this.platform.is('mobile')) {
+      return Promise.resolve('');
+    }
+
+    return Sim.getSimInfo().then((info) => {
+      return '+' + info.phoneNumber;
+    });
   }
 
   verify(phoneNumber: string): Promise<void> {
