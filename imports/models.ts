@@ -9,7 +9,8 @@ export interface Profile {
 
 export enum MessageType {
   TEXT = <any>'text',
-  LOCATION = <any>'location'
+  LOCATION = <any>'location',
+  PICTURE = <any>'picture'
 }
 
 export interface Chat {
