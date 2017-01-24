@@ -3,8 +3,8 @@ import { NavController, PopoverController, ModalController, AlertController } fr
 import { MeteorObservable } from 'meteor-rxjs';
 import * as Moment from 'moment';
 import { Observable, Subscriber } from 'rxjs';
-import { Chats, Messages, Users } from '../../../../imports/collections';
-import { Chat, Message, MessageType } from '../../../../imports/models';
+import { Chats, Messages, Users, Pictures } from '../../../../imports/collections';
+import { Chat, Message } from '../../../../imports/models';
 import { ChatsOptionsComponent } from './chats-options';
 import { MessagesPage } from '../messages/messages';
 import template from './chats.html';
@@ -50,7 +50,7 @@ export class ChatsPage implements OnInit {
 
         if (receiver) {
           chat.title = receiver.profile.name;
-          chat.picture = receiver.profile.picture;
+          chat.picture = Pictures.getPictureUrl(receiver.profile.pictureId);
         }
 
         // This will make the last message reactive
