@@ -3,7 +3,7 @@ import { AlertController, ViewController } from 'ionic-angular';
 import { MeteorObservable } from 'meteor-rxjs';
 import { _ } from 'meteor/underscore';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { Chats, Users } from '../../../../imports/collections';
+import { Chats, Pictures, Users } from '../../../../imports/collections';
 import { User } from '../../../../imports/models';
 import template from './new-chat.html';
 
@@ -106,5 +106,9 @@ export class NewChatComponent implements OnInit {
     });
 
     alert.present();
+  }
+
+  getPic(pictureId): string {
+    return Pictures.getPictureUrl(pictureId);
   }
 }
