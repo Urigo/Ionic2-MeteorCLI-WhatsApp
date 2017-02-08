@@ -33,11 +33,6 @@ export class ChatsPage implements OnInit {
   }
 
   removeChat(chat: Chat): void {
-    this.chats = this.chats.map(chatsArray => {
-      const chatIndex = chatsArray.indexOf(chat);
-      chatsArray.splice(chatIndex, 1);
-
-      return chatsArray;
-    });
+    Chats.remove({_id: chat._id}).subscribe(() => {});
   }
 }
