@@ -14,5 +14,6 @@ export interface Message {
   chatId?: string;
   content?: string;
   createdAt?: Date;
-  type?: MessageType
+  ownership?: string;
+  type?: MessageType;
 }
