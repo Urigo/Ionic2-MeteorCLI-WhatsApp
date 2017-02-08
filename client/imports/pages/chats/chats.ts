@@ -4,6 +4,7 @@ import * as Moment from 'moment';
 import { Observable } from 'rxjs';
 import { Chats, Messages } from '../../../../imports/collections';
 import { Chat, MessageType } from '../../../../imports/models';
+import { MessagesPage } from '../messages/messages';
 import template from './chats.html';
 
 @Component({
