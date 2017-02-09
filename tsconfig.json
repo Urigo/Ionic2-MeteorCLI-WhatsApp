@@ -19,7 +19,8 @@
     "types": [
       "meteor-typings",
       "@types/underscore",
-      "@types/meteor-accounts-phone"
+      "@types/meteor-accounts-phone",
+      "@types/meteor-publish-composite"
     ]
   },
   "include": [
