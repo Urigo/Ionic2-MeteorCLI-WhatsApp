@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, PopoverController, ModalController } from 'ionic-angular';
+import { NavController, PopoverController, ModalController, AlertController } from 'ionic-angular';
 import { MeteorObservable } from 'meteor-rxjs';
 import * as Moment from 'moment';
 import { Observable, Subscriber } from 'rxjs';
@@ -20,7 +20,8 @@ export class ChatsPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private popoverCtrl: PopoverController,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController) {
     this.senderId = Meteor.userId();
   }
 
@@ -92,8 +93,25 @@ export class ChatsPage implements OnInit {
   }
 
   removeChat(chat: Chat): void {
-    Chats.remove({_id: chat._id}).subscribe(() => {
+    MeteorObservable.call('removeChat', chat._id).subscribe({
+      error: (e: Error) => {
+        if (e) {
+          this.handleError(e);
+        }
+      }
     });
+  }
+
+  handleError(e: Error): void {
+    console.error(e);
+
+    const alert = this.alertCtrl.create({
+      buttons: ['OK'],
+      message: e.message,
+      title: 'Oops!'
+    });
+
+    alert.present();
   }
 
   showOptions(): void {
