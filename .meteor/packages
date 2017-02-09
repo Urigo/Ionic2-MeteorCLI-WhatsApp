@@ -24,3 +24,4 @@ check
 npm-bcrypt
 accounts-base
 mys:accounts-phone
+reywood:publish-composite
