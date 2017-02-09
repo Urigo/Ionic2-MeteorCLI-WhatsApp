@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, PopoverController } from 'ionic-angular';
+import { NavController, PopoverController, ModalController } from 'ionic-angular';
 import * as Moment from 'moment';
 import { Observable } from 'rxjs';
 import { Chats, Messages } from '../../../../imports/collections';
@@ -7,6 +7,7 @@ import { Chat, MessageType } from '../../../../imports/models';
 import { ChatsOptionsComponent } from './chats-options';
 import { MessagesPage } from '../messages/messages';
 import template from './chats.html';
+import { NewChatComponent } from './new-chat';
 
 @Component({
   template
@@ -16,7 +17,8 @@ export class ChatsPage implements OnInit {
 
   constructor(
     private navCtrl: NavController,
-    private popoverCtrl: PopoverController) {
+    private popoverCtrl: PopoverController,
+    private modalCtrl: ModalController) {
   }
 
   ngOnInit() {
@@ -35,6 +37,11 @@ export class ChatsPage implements OnInit {
           )
         )
       ).zone();
+  }
+
+  addChat(): void {
+    const modal = this.modalCtrl.create(NewChatComponent);
+    modal.present();
   }
 
   showMessages(chat): void {
