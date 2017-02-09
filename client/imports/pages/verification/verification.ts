@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, NavParams } from 'ionic-angular';
+import { ProfilePage } from '../profile/profile';
 import { PhoneService } from '../../services/phone';
 import template from './verification.html';
 
@@ -28,9 +29,10 @@ export class VerificationPage implements OnInit {
   }
 
   verify(): void {
-    this.phoneService.login(this.phone, this.code)
-    .catch((e) => {
-      this.handleError(e);
+    this.phoneService.login(this.phone, this.code).then(() => {
+      this.navCtrl.setRoot(ProfilePage, {}, {
+        animate: true
+      });
     });
   }
 
