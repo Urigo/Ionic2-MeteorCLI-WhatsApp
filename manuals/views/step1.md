@@ -1,8 +1,12 @@
 # Step 1: Bootstraping
 
-Both [Meteor](meteor.com) and [Ionic](ionicframework.com) took their platform to the next level in tooling.
+> If you got directly into here, please read the whole [intro section](https://angular-meteor.com/tutorials/whatsapp2-tutorial) explaining the goals for this tutorial and project.
+
+Both [Meteor](https://meteor.com) and [Ionic](https://ionicframework.com) took their platform to the next level in tooling.
 Both provide CLI interface instead of bringing bunch of dependencies and configure build tools.
 There are also differences between those tools. in this post we will focus on the `Meteor` CLI.
+
+> If you are interested in the [Ionic CLI](https://angular-meteor.com/tutorials/whatsapp2/ionic/setup), the steps needed to use it with Meteor are almost identical to the steps required by the Meteor CLI.
 
 Start by installing `Meteor` if you haven't already (See [reference](https://www.meteor.com/install)).
 
