@@ -103,34 +103,35 @@ We will also define a new hook in the `Meteor.users` collection so whenever we u
 
 {{{diff_step 12.24}}}
 
-Since there is no available declarations for collections hook our there, we will need to defined them explicitly:
+Collection hooks are not part of `Meteor`'s official API and are added through a third-party package called `matb33:collection-hooks`. This requires us to install the necessary type definition:
 
-[//]: # Update once PR is approved
-[//]: # https://github.com/DefinitelyTyped/DefinitelyTyped/pull/14254
+    $ npm install --save-dev @types/meteor-collection-hooks
 
-{{{diff_step 12.25}}}
-
-We now add a `user` publication which should be subscribed whenever we initialize the `ProfilePage`. This subscription should fetch some data from other collections which is related to the user which is currently logged in; And to be more specific, the document associated with the `profileId` defined in the `User` model:
+Now we need to import the type definition we've just installed in the `tsconfig.json` file:
 
 {{{diff_step 12.26}}}
 
-We will also modify the `users` and `chats` publication, so each user will contain its corresponding picture document as well:
+We now add a `user` publication which should be subscribed whenever we initialize the `ProfilePage`. This subscription should fetch some data from other collections which is related to the user which is currently logged in; And to be more specific, the document associated with the `profileId` defined in the `User` model:
 
 {{{diff_step 12.27}}}
 
-{{{diff_step 12.28}}}
+We will also modify the `users` and `chats` publication, so each user will contain its corresponding picture document as well:
 
-Since we already set up some collection hooks on the users collection, we can take it a step further by defining collection hooks on the chat collection, so whenever a chat is being removed, all its corresponding messages will be removed as well:
+{{{diff_step 12.28}}}
 
 {{{diff_step 12.29}}}
 
-We will now update the `updateProfile` method in the server to accept `pictureId`, so whenever we pick up a new profile picture the server won't reject it:
+Since we already set up some collection hooks on the users collection, we can take it a step further by defining collection hooks on the chat collection, so whenever a chat is being removed, all its corresponding messages will be removed as well:
 
 {{{diff_step 12.30}}}
 
-Now we will update the users fabrication in our server's initialization, so instead of using hard-coded URLs, we will insert them as new documents to the `PicturesCollection`:
+We will now update the `updateProfile` method in the server to accept `pictureId`, so whenever we pick up a new profile picture the server won't reject it:
 
 {{{diff_step 12.31}}}
+
+Now we will update the users fabrication in our server's initialization, so instead of using hard-coded URLs, we will insert them as new documents to the `PicturesCollection`:
+
+{{{diff_step 12.32}}}
 
 To avoid some unexpected behaviors, we will reset our data-base so our server can re-fabricate the data:
 
@@ -138,10 +139,10 @@ To avoid some unexpected behaviors, we will reset our data-base so our server ca
 
 We will now update the `ChatsPage` to add the belonging picture for each chat during transformation:
 
-{{{diff_step 12.32}}}
+{{{diff_step 12.33}}}
 
 And we will do the same in the `NewChatComponent`:
 
-{{{diff_step 12.33}}}
-
 {{{diff_step 12.34}}}
+
+{{{diff_step 12.35}}}

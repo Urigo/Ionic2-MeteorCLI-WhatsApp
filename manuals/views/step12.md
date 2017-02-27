@@ -755,207 +755,34 @@ We will also define a new hook in the `Meteor.users` collection so whenever we u
 ```
 [}]: #
 
-Since there is no available declarations for collections hook our there, we will need to defined them explicitly:
+Collection hooks are not part of `Meteor`'s official API and are added through a third-party package called `matb33:collection-hooks`. This requires us to install the necessary type definition:
 
-[//]: # Update once PR is approved
-[//]: # https://github.com/DefinitelyTyped/DefinitelyTyped/pull/14254
+    $ npm install --save-dev @types/meteor-collection-hooks
 
-[{]: <helper> (diff_step 12.25)
-#### Step 12.25: Add typescript typing for meteor hooks
+Now we need to import the type definition we've just installed in the `tsconfig.json` file:
 
-##### Changed declarations.d.ts
+[{]: <helper> (diff_step 12.26)
+#### Step 12.26: Import @types/meteor-collection-hooks
+
+##### Changed tsconfig.json
 ```diff
-@@ -2,4 +2,182 @@
- ┊  2┊  2┊  A wildcard module is declared below to allow third party libraries to be used in an app even if they don't
- ┊  3┊  3┊  provide their own type declarations.
- ┊  4┊  4┊ */
--┊  5┊   ┊declare module '*';🚫↵
-+┊   ┊  5┊declare module '*';
-+┊   ┊  6┊
-+┊   ┊  7┊declare module 'meteor/mongo' {
-+┊   ┊  8┊  module Mongo {
-+┊   ┊  9┊    interface Collection<T> {
-+┊   ┊ 10┊      before: {
-+┊   ┊ 11┊        find(hook: {(userId: string, selector: Mongo.Selector, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊ 12┊        findOne(hook: {(userId: string, selector: Mongo.Selector, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊ 13┊        insert(hook: {(userId: string, doc: T): void}): void;
-+┊   ┊ 14┊        remove(hook: {(userId: string, doc: T): void}): void;
-+┊   ┊ 15┊        update(hook: {(userId: string, doc: T, fieldNames: string[], modifier: Mongo.Modifier, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊ 16┊        upsert(hook: {(userId: string, doc: T, selector: Mongo.Selector, modifier: Mongo.Modifier, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊ 17┊      };
-+┊   ┊ 18┊      after: {
-+┊   ┊ 19┊        find(hook: {(userId: string, selector: Mongo.Selector, options: { multi?: boolean; upsert?: boolean; }, cursor: Mongo.Cursor<T>): void}): void;
-+┊   ┊ 20┊        findOne(hook: {(userId: string, selector: Mongo.Selector, options: { multi?: boolean; upsert?: boolean; }, doc: T): void}): void;
-+┊   ┊ 21┊        insert(hook: {(userId: string, doc: T): void}): void;
-+┊   ┊ 22┊        remove(hook: {(userId: string, doc: T): void}): void;
-+┊   ┊ 23┊        update(hook: {(userId: string, doc: T, fieldNames: string[], modifier: Mongo.Modifier, options: { multi?: boolean; upsert?: boolean; }): void}, options?: HookOptions): void;
-+┊   ┊ 24┊        upsert(hook: {(userId: string, doc: T, selector: Mongo.Selector, modifier: Mongo.Modifier, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊ 25┊      };
-+┊   ┊ 26┊      direct: {
-+┊   ┊ 27┊        find(selector?: Mongo.Selector | Mongo.ObjectID | string, options?: {
-+┊   ┊ 28┊          sort?: Mongo.SortSpecifier;
-+┊   ┊ 29┊          skip?: number;
-+┊   ┊ 30┊          limit?: number;
-+┊   ┊ 31┊          fields?: Mongo.FieldSpecifier;
-+┊   ┊ 32┊          reactive?: boolean;
-+┊   ┊ 33┊          transform?: Function;
-+┊   ┊ 34┊        }): Mongo.Cursor<T>;
-+┊   ┊ 35┊        findOne(selector?: Mongo.Selector | Mongo.ObjectID | string, options?: {
-+┊   ┊ 36┊          sort?: Mongo.SortSpecifier;
-+┊   ┊ 37┊          skip?: number;
-+┊   ┊ 38┊          fields?: Mongo.FieldSpecifier;
-+┊   ┊ 39┊          reactive?: boolean;
-+┊   ┊ 40┊          transform?: Function;
-+┊   ┊ 41┊        }): T;
-+┊   ┊ 42┊        insert(doc: T, callback?: Function): string;
-+┊   ┊ 43┊        remove(selector: Mongo.Selector | Mongo.ObjectID | string, callback?: Function): number;
-+┊   ┊ 44┊        update(selector: Mongo.Selector | Mongo.ObjectID | string, modifier: Mongo.Modifier, options?: {
-+┊   ┊ 45┊          multi?: boolean;
-+┊   ┊ 46┊          upsert?: boolean;
-+┊   ┊ 47┊        }, callback?: Function): number;
-+┊   ┊ 48┊        upsert(selector: Mongo.Selector | Mongo.ObjectID | string, modifier: Mongo.Modifier, options?: {
-+┊   ┊ 49┊          multi?: boolean;
-+┊   ┊ 50┊        }, callback?: Function): {numberAffected?: number; insertedId?: string;};
-+┊   ┊ 51┊      };
-+┊   ┊ 52┊      hookOptions: CollectionOptions;
-+┊   ┊ 53┊    }
-+┊   ┊ 54┊  }
-+┊   ┊ 55┊
-+┊   ┊ 56┊  var CollectionHooks: CollectionHooksStatic;
-+┊   ┊ 57┊
-+┊   ┊ 58┊  interface CollectionHooksStatic {
-+┊   ┊ 59┊    defaults: CollectionOptions;
-+┊   ┊ 60┊  }
-+┊   ┊ 61┊
-+┊   ┊ 62┊  interface HookOptions {
-+┊   ┊ 63┊    fetchPrevious?: boolean;
-+┊   ┊ 64┊  }
-+┊   ┊ 65┊
-+┊   ┊ 66┊  interface CollectionOptions {
-+┊   ┊ 67┊    before: {
-+┊   ┊ 68┊      all: HookOptions;
-+┊   ┊ 69┊      find: HookOptions;
-+┊   ┊ 70┊      findOne: HookOptions;
-+┊   ┊ 71┊      insert: HookOptions;
-+┊   ┊ 72┊      remove: HookOptions;
-+┊   ┊ 73┊      update: HookOptions;
-+┊   ┊ 74┊      upsert: HookOptions;
-+┊   ┊ 75┊    };
-+┊   ┊ 76┊    after: {
-+┊   ┊ 77┊      all: HookOptions;
-+┊   ┊ 78┊      find: HookOptions;
-+┊   ┊ 79┊      findOne: HookOptions;
-+┊   ┊ 80┊      insert: HookOptions;
-+┊   ┊ 81┊      remove: HookOptions;
-+┊   ┊ 82┊      update: HookOptions;
-+┊   ┊ 83┊      upsert: HookOptions;
-+┊   ┊ 84┊    };
-+┊   ┊ 85┊    all: {
-+┊   ┊ 86┊      all: HookOptions;
-+┊   ┊ 87┊      find: HookOptions;
-+┊   ┊ 88┊      findOne: HookOptions;
-+┊   ┊ 89┊      insert: HookOptions;
-+┊   ┊ 90┊      remove: HookOptions;
-+┊   ┊ 91┊      update: HookOptions;
-+┊   ┊ 92┊      upsert: HookOptions;
-+┊   ┊ 93┊    };
-+┊   ┊ 94┊  }
-+┊   ┊ 95┊}
-+┊   ┊ 96┊
-+┊   ┊ 97┊declare module Mongo {
-+┊   ┊ 98┊  interface Collection<T> {
-+┊   ┊ 99┊    before: {
-+┊   ┊100┊      find(hook: {(userId: string, selector: Mongo.Selector, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊101┊      findOne(hook: {(userId: string, selector: Mongo.Selector, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊102┊      insert(hook: {(userId: string, doc: T): void}): void;
-+┊   ┊103┊      remove(hook: {(userId: string, doc: T): void}): void;
-+┊   ┊104┊      update(hook: {(userId: string, doc: T, fieldNames: string[], modifier: Mongo.Modifier, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊105┊      upsert(hook: {(userId: string, doc: T, selector: Mongo.Selector, modifier: Mongo.Modifier, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊106┊    };
-+┊   ┊107┊    after: {
-+┊   ┊108┊      find(hook: {(userId: string, selector: Mongo.Selector, options: { multi?: boolean; upsert?: boolean; }, cursor: Mongo.Cursor<T>): void}): void;
-+┊   ┊109┊      findOne(hook: {(userId: string, selector: Mongo.Selector, options: { multi?: boolean; upsert?: boolean; }, doc: T): void}): void;
-+┊   ┊110┊      insert(hook: {(userId: string, doc: T): void}): void;
-+┊   ┊111┊      remove(hook: {(userId: string, doc: T): void}): void;
-+┊   ┊112┊      update(hook: {(userId: string, doc: T, fieldNames: string[], modifier: Mongo.Modifier, options: { multi?: boolean; upsert?: boolean; }): void}, options?: HookOptions): void;
-+┊   ┊113┊      upsert(hook: {(userId: string, doc: T, selector: Mongo.Selector, modifier: Mongo.Modifier, options: { multi?: boolean; upsert?: boolean; }): void}): void;
-+┊   ┊114┊    };
-+┊   ┊115┊    direct: {
-+┊   ┊116┊      find(selector?: Mongo.Selector | Mongo.ObjectID | string, options?: {
-+┊   ┊117┊        sort?: Mongo.SortSpecifier;
-+┊   ┊118┊        skip?: number;
-+┊   ┊119┊        limit?: number;
-+┊   ┊120┊        fields?: Mongo.FieldSpecifier;
-+┊   ┊121┊        reactive?: boolean;
-+┊   ┊122┊        transform?: Function;
-+┊   ┊123┊      }): Mongo.Cursor<T>;
-+┊   ┊124┊      findOne(selector?: Mongo.Selector | Mongo.ObjectID | string, options?: {
-+┊   ┊125┊        sort?: Mongo.SortSpecifier;
-+┊   ┊126┊        skip?: number;
-+┊   ┊127┊        fields?: Mongo.FieldSpecifier;
-+┊   ┊128┊        reactive?: boolean;
-+┊   ┊129┊        transform?: Function;
-+┊   ┊130┊      }): T;
-+┊   ┊131┊      insert(doc: T, callback?: Function): string;
-+┊   ┊132┊      remove(selector: Mongo.Selector | Mongo.ObjectID | string, callback?: Function): number;
-+┊   ┊133┊      update(selector: Mongo.Selector | Mongo.ObjectID | string, modifier: Mongo.Modifier, options?: {
-+┊   ┊134┊        multi?: boolean;
-+┊   ┊135┊        upsert?: boolean;
-+┊   ┊136┊      }, callback?: Function): number;
-+┊   ┊137┊      upsert(selector: Mongo.Selector | Mongo.ObjectID | string, modifier: Mongo.Modifier, options?: {
-+┊   ┊138┊        multi?: boolean;
-+┊   ┊139┊      }, callback?: Function): {numberAffected?: number; insertedId?: string;};
-+┊   ┊140┊    };
-+┊   ┊141┊    hookOptions: CollectionOptions;
-+┊   ┊142┊  }
-+┊   ┊143┊}
-+┊   ┊144┊
-+┊   ┊145┊declare var CollectionHooks: CollectionHooksStatic;
-+┊   ┊146┊
-+┊   ┊147┊interface CollectionHooksStatic {
-+┊   ┊148┊  defaults: CollectionOptions;
-+┊   ┊149┊}
-+┊   ┊150┊
-+┊   ┊151┊interface HookOptions {
-+┊   ┊152┊  fetchPrevious?: boolean;
-+┊   ┊153┊}
-+┊   ┊154┊
-+┊   ┊155┊interface CollectionOptions {
-+┊   ┊156┊  before: {
-+┊   ┊157┊    all: HookOptions;
-+┊   ┊158┊    find: HookOptions;
-+┊   ┊159┊    findOne: HookOptions;
-+┊   ┊160┊    insert: HookOptions;
-+┊   ┊161┊    remove: HookOptions;
-+┊   ┊162┊    update: HookOptions;
-+┊   ┊163┊    upsert: HookOptions;
-+┊   ┊164┊  };
-+┊   ┊165┊  after: {
-+┊   ┊166┊    all: HookOptions;
-+┊   ┊167┊    find: HookOptions;
-+┊   ┊168┊    findOne: HookOptions;
-+┊   ┊169┊    insert: HookOptions;
-+┊   ┊170┊    remove: HookOptions;
-+┊   ┊171┊    update: HookOptions;
-+┊   ┊172┊    upsert: HookOptions;
-+┊   ┊173┊  };
-+┊   ┊174┊  all: {
-+┊   ┊175┊    all: HookOptions;
-+┊   ┊176┊    find: HookOptions;
-+┊   ┊177┊    findOne: HookOptions;
-+┊   ┊178┊    insert: HookOptions;
-+┊   ┊179┊    remove: HookOptions;
-+┊   ┊180┊    update: HookOptions;
-+┊   ┊181┊    upsert: HookOptions;
-+┊   ┊182┊  };
-+┊   ┊183┊}🚫↵
+@@ -20,7 +20,8 @@
+ ┊20┊20┊      "meteor-typings",
+ ┊21┊21┊      "@types/underscore",
+ ┊22┊22┊      "@types/meteor-accounts-phone",
+-┊23┊  ┊      "@types/meteor-publish-composite"
++┊  ┊23┊      "@types/meteor-publish-composite",
++┊  ┊24┊      "@types/meteor-collection-hooks"
+ ┊24┊25┊    ]
+ ┊25┊26┊  },
+ ┊26┊27┊  "include": [
 ```
 [}]: #
 
 We now add a `user` publication which should be subscribed whenever we initialize the `ProfilePage`. This subscription should fetch some data from other collections which is related to the user which is currently logged in; And to be more specific, the document associated with the `profileId` defined in the `User` model:
 
-[{]: <helper> (diff_step 12.26)
-#### Step 12.26: Add user publication
+[{]: <helper> (diff_step 12.27)
+#### Step 12.27: Add user publication
 
 ##### Changed server/publications.ts
 ```diff
@@ -992,8 +819,8 @@ We now add a `user` publication which should be subscribed whenever we initializ
 
 We will also modify the `users` and `chats` publication, so each user will contain its corresponding picture document as well:
 
-[{]: <helper> (diff_step 12.27)
-#### Step 12.27: Added images to users publication
+[{]: <helper> (diff_step 12.28)
+#### Step 12.28: Added images to users publication
 
 ##### Changed server/publications.ts
 ```diff
@@ -1029,8 +856,8 @@ We will also modify the `users` and `chats` publication, so each user will conta
 ```
 [}]: #
 
-[{]: <helper> (diff_step 12.28)
-#### Step 12.28: Add images to chats publication
+[{]: <helper> (diff_step 12.29)
+#### Step 12.29: Add images to chats publication
 
 ##### Changed server/publications.ts
 ```diff
@@ -1057,8 +884,8 @@ We will also modify the `users` and `chats` publication, so each user will conta
 
 Since we already set up some collection hooks on the users collection, we can take it a step further by defining collection hooks on the chat collection, so whenever a chat is being removed, all its corresponding messages will be removed as well:
 
-[{]: <helper> (diff_step 12.29)
-#### Step 12.29: Add hook for removing unused messages
+[{]: <helper> (diff_step 12.30)
+#### Step 12.30: Add hook for removing unused messages
 
 ##### Changed imports/collections/chats.ts
 ```diff
@@ -1079,8 +906,8 @@ Since we already set up some collection hooks on the users collection, we can ta
 
 We will now update the `updateProfile` method in the server to accept `pictureId`, so whenever we pick up a new profile picture the server won't reject it:
 
-[{]: <helper> (diff_step 12.30)
-#### Step 12.30: Allow updating pictureId
+[{]: <helper> (diff_step 12.31)
+#### Step 12.31: Allow updating pictureId
 
 ##### Changed server/methods.ts
 ```diff
@@ -1099,8 +926,8 @@ We will now update the `updateProfile` method in the server to accept `pictureId
 
 Now we will update the users fabrication in our server's initialization, so instead of using hard-coded URLs, we will insert them as new documents to the `PicturesCollection`:
 
-[{]: <helper> (diff_step 12.31)
-#### Step 12.31: Update creation of users stubs
+[{]: <helper> (diff_step 12.32)
+#### Step 12.32: Update creation of users stubs
 
 ##### Changed server/main.ts
 ```diff
@@ -1206,8 +1033,8 @@ To avoid some unexpected behaviors, we will reset our data-base so our server ca
 
 We will now update the `ChatsPage` to add the belonging picture for each chat during transformation:
 
-[{]: <helper> (diff_step 12.32)
-#### Step 12.32: Fetch user image from server
+[{]: <helper> (diff_step 12.33)
+#### Step 12.33: Fetch user image from server
 
 ##### Changed client/imports/pages/chats/chats.ts
 ```diff
@@ -1238,8 +1065,8 @@ We will now update the `ChatsPage` to add the belonging picture for each chat du
 
 And we will do the same in the `NewChatComponent`:
 
-[{]: <helper> (diff_step 12.33)
-#### Step 12.33: Use the new pictureId field for new chat modal
+[{]: <helper> (diff_step 12.34)
+#### Step 12.34: Use the new pictureId field for new chat modal
 
 ##### Changed client/imports/pages/chats/new-chat.html
 ```diff
@@ -1255,8 +1082,8 @@ And we will do the same in the `NewChatComponent`:
 ```
 [}]: #
 
-[{]: <helper> (diff_step 12.34)
-#### Step 12.34: Implement getPic
+[{]: <helper> (diff_step 12.35)
+#### Step 12.35: Implement getPic
 
 ##### Changed client/imports/pages/chats/new-chat.ts
 ```diff
