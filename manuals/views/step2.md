@@ -1,7 +1,5 @@
-[{]: <region> (header)
 # Step 2: Chats Page
-[}]: #
-[{]: <region> (body)
+
 ## First Ionic Component
 
 Now that we're finished with the initial setup, we can start building our app.
@@ -350,21 +348,23 @@ Now that the models are up and set, we can use apply it to the `ChatsPage`:
 
 `Ionic 2` provides us with a comfortable theming system which is based on `SASS` variables. The theme definition file is located in `client/imports/theme/variable.scss`. Since we want our app to have a "Whatsappish" look, we will define a new `SASS` variable called `whatsapp` in the variables file:
 
-[{]: <helper> (diff_step 2.10)
-#### Step 2.10: Add whatsapp color to the app theme
+[{]: <helper> (diff_step 2.1)
+#### Step 2.1: Create Chats page component
 
-##### Changed client/imports/theme/variables.scss
+##### Added client/imports/pages/chats/chats.ts
 ```diff
-@@ -11,7 +11,8 @@
- ┊11┊11┊  secondary:  #32db64,
- ┊12┊12┊  danger:     #f53d3d,
- ┊13┊13┊  light:      #f4f4f4,
--┊14┊  ┊  dark:       #222
-+┊  ┊14┊  dark:       #222,
-+┊  ┊15┊  whatsapp:   #075E54
- ┊15┊16┊);
- ┊16┊17┊
- ┊17┊18┊// Components
+@@ -0,0 +1,11 @@
++┊  ┊ 1┊import { Component } from '@angular/core';
++┊  ┊ 2┊import template from './chats.html';
++┊  ┊ 3┊
++┊  ┊ 4┊@Component({
++┊  ┊ 5┊  template
++┊  ┊ 6┊})
++┊  ┊ 7┊export class ChatsPage {
++┊  ┊ 8┊  constructor() {
++┊  ┊ 9┊
++┊  ┊10┊  }
++┊  ┊11┊}🚫↵
 ```
 [}]: #
 
@@ -569,10 +569,9 @@ And now that it is bound to the component we can safely implement its handler:
  ┊71┊80┊}🚫↵
 ```
 [}]: #
-[}]: #
-[{]: <region> (footer)
-[{]: <helper> (nav_step)
-| [< Previous Step](step1.md) | [Next Step >](step3.md) |
+
+[{]: <helper> (nav_step next_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/rxjs" prev_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/setup")
+| [< Previous Step](https://angular-meteor.com/tutorials/whatsapp2/meteor/setup) | [Next Step >](https://angular-meteor.com/tutorials/whatsapp2/meteor/rxjs) |
 |:--------------------------------|--------------------------------:|
 [}]: #
-[}]: #
+

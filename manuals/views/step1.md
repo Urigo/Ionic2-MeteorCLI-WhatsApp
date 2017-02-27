@@ -1,7 +1,5 @@
-[{]: <region> (header)
 # Step 1: Bootstraping
-[}]: #
-[{]: <region> (body)
+
 Both [Meteor](meteor.com) and [Ionic](ionicframework.com) took their platform to the next level in tooling.
 Both provide CLI interface instead of bringing bunch of dependencies and configure build tools.
 There are also differences between those tools. in this post we will focus on the `Meteor` CLI.
@@ -284,341 +282,48 @@ The first thing we're going to do in order to integrate `Ionic 2` in our app wou
 
 `Ionic` build system comes with a built-in theming system which helps its users design their app. It's a powerful tool which we wanna take advantage of. In-order to do that, we will define the following `SCSS` file, and we will import it:
 
-[{]: <helper> (diff_step 1.10)
-#### Step 1.10: Add theme variables
+[{]: <helper> (diff_step 1.1)
+#### Step 1.1: Uninstall blaze-html-templates
 
-##### Added client/imports/theme/components.scss
+##### Changed .meteor/packages
 ```diff
-@@ -0,0 +1,245 @@
-+┊   ┊  1┊// Components
-+┊   ┊  2┊// --------------------------------------------------
-+┊   ┊  3┊
-+┊   ┊  4┊@import
-+┊   ┊  5┊"{}/node_modules/ionic-angular/components/action-sheet/action-sheet",
-+┊   ┊  6┊"{}/node_modules/ionic-angular/components/action-sheet/action-sheet.ios",
-+┊   ┊  7┊"{}/node_modules/ionic-angular/components/action-sheet/action-sheet.md",
-+┊   ┊  8┊"{}/node_modules/ionic-angular/components/action-sheet/action-sheet.wp";
-+┊   ┊  9┊
-+┊   ┊ 10┊@import
-+┊   ┊ 11┊"{}/node_modules/ionic-angular/components/alert/alert",
-+┊   ┊ 12┊"{}/node_modules/ionic-angular/components/alert/alert.ios",
-+┊   ┊ 13┊"{}/node_modules/ionic-angular/components/alert/alert.md",
-+┊   ┊ 14┊"{}/node_modules/ionic-angular/components/alert/alert.wp";
-+┊   ┊ 15┊
-+┊   ┊ 16┊@import
-+┊   ┊ 17┊"{}/node_modules/ionic-angular/components/app/app",
-+┊   ┊ 18┊"{}/node_modules/ionic-angular/components/app/app.ios",
-+┊   ┊ 19┊"{}/node_modules/ionic-angular/components/app/app.md",
-+┊   ┊ 20┊"{}/node_modules/ionic-angular/components/app/app.wp";
-+┊   ┊ 21┊
-+┊   ┊ 22┊@import
-+┊   ┊ 23┊"{}/node_modules/ionic-angular/components/backdrop/backdrop";
-+┊   ┊ 24┊
-+┊   ┊ 25┊@import
-+┊   ┊ 26┊"{}/node_modules/ionic-angular/components/badge/badge",
-+┊   ┊ 27┊"{}/node_modules/ionic-angular/components/badge/badge.ios",
-+┊   ┊ 28┊"{}/node_modules/ionic-angular/components/badge/badge.md",
-+┊   ┊ 29┊"{}/node_modules/ionic-angular/components/badge/badge.wp";
-+┊   ┊ 30┊
-+┊   ┊ 31┊@import
-+┊   ┊ 32┊"{}/node_modules/ionic-angular/components/button/button",
-+┊   ┊ 33┊"{}/node_modules/ionic-angular/components/button/button-icon",
-+┊   ┊ 34┊"{}/node_modules/ionic-angular/components/button/button.ios",
-+┊   ┊ 35┊"{}/node_modules/ionic-angular/components/button/button.md",
-+┊   ┊ 36┊"{}/node_modules/ionic-angular/components/button/button.wp";
-+┊   ┊ 37┊
-+┊   ┊ 38┊@import
-+┊   ┊ 39┊"{}/node_modules/ionic-angular/components/card/card",
-+┊   ┊ 40┊"{}/node_modules/ionic-angular/components/card/card.ios",
-+┊   ┊ 41┊"{}/node_modules/ionic-angular/components/card/card.md",
-+┊   ┊ 42┊"{}/node_modules/ionic-angular/components/card/card.wp";
-+┊   ┊ 43┊
-+┊   ┊ 44┊@import
-+┊   ┊ 45┊"{}/node_modules/ionic-angular/components/checkbox/checkbox.ios",
-+┊   ┊ 46┊"{}/node_modules/ionic-angular/components/checkbox/checkbox.md",
-+┊   ┊ 47┊"{}/node_modules/ionic-angular/components/checkbox/checkbox.wp";
-+┊   ┊ 48┊
-+┊   ┊ 49┊@import
-+┊   ┊ 50┊"{}/node_modules/ionic-angular/components/chip/chip",
-+┊   ┊ 51┊"{}/node_modules/ionic-angular/components/chip/chip.ios",
-+┊   ┊ 52┊"{}/node_modules/ionic-angular/components/chip/chip.md",
-+┊   ┊ 53┊"{}/node_modules/ionic-angular/components/chip/chip.wp";
-+┊   ┊ 54┊
-+┊   ┊ 55┊@import
-+┊   ┊ 56┊"{}/node_modules/ionic-angular/components/content/content",
-+┊   ┊ 57┊"{}/node_modules/ionic-angular/components/content/content.ios",
-+┊   ┊ 58┊"{}/node_modules/ionic-angular/components/content/content.md",
-+┊   ┊ 59┊"{}/node_modules/ionic-angular/components/content/content.wp";
-+┊   ┊ 60┊
-+┊   ┊ 61┊@import
-+┊   ┊ 62┊"{}/node_modules/ionic-angular/components/datetime/datetime",
-+┊   ┊ 63┊"{}/node_modules/ionic-angular/components/datetime/datetime.ios",
-+┊   ┊ 64┊"{}/node_modules/ionic-angular/components/datetime/datetime.md",
-+┊   ┊ 65┊"{}/node_modules/ionic-angular/components/datetime/datetime.wp";
-+┊   ┊ 66┊
-+┊   ┊ 67┊@import
-+┊   ┊ 68┊"{}/node_modules/ionic-angular/components/fab/fab",
-+┊   ┊ 69┊"{}/node_modules/ionic-angular/components/fab/fab.ios",
-+┊   ┊ 70┊"{}/node_modules/ionic-angular/components/fab/fab.md",
-+┊   ┊ 71┊"{}/node_modules/ionic-angular/components/fab/fab.wp";
-+┊   ┊ 72┊
-+┊   ┊ 73┊@import
-+┊   ┊ 74┊"{}/node_modules/ionic-angular/components/grid/grid";
-+┊   ┊ 75┊
-+┊   ┊ 76┊@import
-+┊   ┊ 77┊"{}/node_modules/ionic-angular/components/icon/icon",
-+┊   ┊ 78┊"{}/node_modules/ionic-angular/components/icon/icon.ios",
-+┊   ┊ 79┊"{}/node_modules/ionic-angular/components/icon/icon.md",
-+┊   ┊ 80┊"{}/node_modules/ionic-angular/components/icon/icon.wp";
-+┊   ┊ 81┊
-+┊   ┊ 82┊@import
-+┊   ┊ 83┊"{}/node_modules/ionic-angular/components/img/img";
-+┊   ┊ 84┊
-+┊   ┊ 85┊@import
-+┊   ┊ 86┊"{}/node_modules/ionic-angular/components/infinite-scroll/infinite-scroll";
-+┊   ┊ 87┊
-+┊   ┊ 88┊@import
-+┊   ┊ 89┊"{}/node_modules/ionic-angular/components/input/input",
-+┊   ┊ 90┊"{}/node_modules/ionic-angular/components/input/input.ios",
-+┊   ┊ 91┊"{}/node_modules/ionic-angular/components/input/input.md",
-+┊   ┊ 92┊"{}/node_modules/ionic-angular/components/input/input.wp";
-+┊   ┊ 93┊
-+┊   ┊ 94┊@import
-+┊   ┊ 95┊"{}/node_modules/ionic-angular/components/item/item",
-+┊   ┊ 96┊"{}/node_modules/ionic-angular/components/item/item-media",
-+┊   ┊ 97┊"{}/node_modules/ionic-angular/components/item/item-reorder",
-+┊   ┊ 98┊"{}/node_modules/ionic-angular/components/item/item-sliding",
-+┊   ┊ 99┊"{}/node_modules/ionic-angular/components/item/item.ios",
-+┊   ┊100┊"{}/node_modules/ionic-angular/components/item/item.md",
-+┊   ┊101┊"{}/node_modules/ionic-angular/components/item/item.wp";
-+┊   ┊102┊
-+┊   ┊103┊@import
-+┊   ┊104┊"{}/node_modules/ionic-angular/components/label/label",
-+┊   ┊105┊"{}/node_modules/ionic-angular/components/label/label.ios",
-+┊   ┊106┊"{}/node_modules/ionic-angular/components/label/label.md",
-+┊   ┊107┊"{}/node_modules/ionic-angular/components/label/label.wp";
-+┊   ┊108┊
-+┊   ┊109┊@import
-+┊   ┊110┊"{}/node_modules/ionic-angular/components/list/list",
-+┊   ┊111┊"{}/node_modules/ionic-angular/components/list/list.ios",
-+┊   ┊112┊"{}/node_modules/ionic-angular/components/list/list.md",
-+┊   ┊113┊"{}/node_modules/ionic-angular/components/list/list.wp";
-+┊   ┊114┊
-+┊   ┊115┊@import
-+┊   ┊116┊"{}/node_modules/ionic-angular/components/loading/loading",
-+┊   ┊117┊"{}/node_modules/ionic-angular/components/loading/loading.ios",
-+┊   ┊118┊"{}/node_modules/ionic-angular/components/loading/loading.md",
-+┊   ┊119┊"{}/node_modules/ionic-angular/components/loading/loading.wp";
-+┊   ┊120┊
-+┊   ┊121┊@import
-+┊   ┊122┊"{}/node_modules/ionic-angular/components/menu/menu",
-+┊   ┊123┊"{}/node_modules/ionic-angular/components/menu/menu.ios",
-+┊   ┊124┊"{}/node_modules/ionic-angular/components/menu/menu.md",
-+┊   ┊125┊"{}/node_modules/ionic-angular/components/menu/menu.wp";
-+┊   ┊126┊
-+┊   ┊127┊@import
-+┊   ┊128┊"{}/node_modules/ionic-angular/components/modal/modal",
-+┊   ┊129┊"{}/node_modules/ionic-angular/components/modal/modal.ios",
-+┊   ┊130┊"{}/node_modules/ionic-angular/components/modal/modal.md",
-+┊   ┊131┊"{}/node_modules/ionic-angular/components/modal/modal.wp";
-+┊   ┊132┊
-+┊   ┊133┊@import
-+┊   ┊134┊"{}/node_modules/ionic-angular/components/note/note.ios",
-+┊   ┊135┊"{}/node_modules/ionic-angular/components/note/note.md",
-+┊   ┊136┊"{}/node_modules/ionic-angular/components/note/note.wp";
-+┊   ┊137┊
-+┊   ┊138┊@import
-+┊   ┊139┊"{}/node_modules/ionic-angular/components/picker/picker",
-+┊   ┊140┊"{}/node_modules/ionic-angular/components/picker/picker.ios",
-+┊   ┊141┊"{}/node_modules/ionic-angular/components/picker/picker.md",
-+┊   ┊142┊"{}/node_modules/ionic-angular/components/picker/picker.wp";
-+┊   ┊143┊
-+┊   ┊144┊@import
-+┊   ┊145┊"{}/node_modules/ionic-angular/components/popover/popover",
-+┊   ┊146┊"{}/node_modules/ionic-angular/components/popover/popover.ios",
-+┊   ┊147┊"{}/node_modules/ionic-angular/components/popover/popover.md",
-+┊   ┊148┊"{}/node_modules/ionic-angular/components/popover/popover.wp";
-+┊   ┊149┊
-+┊   ┊150┊@import
-+┊   ┊151┊"{}/node_modules/ionic-angular/components/radio/radio.ios",
-+┊   ┊152┊"{}/node_modules/ionic-angular/components/radio/radio.md",
-+┊   ┊153┊"{}/node_modules/ionic-angular/components/radio/radio.wp";
-+┊   ┊154┊
-+┊   ┊155┊@import
-+┊   ┊156┊"{}/node_modules/ionic-angular/components/range/range",
-+┊   ┊157┊"{}/node_modules/ionic-angular/components/range/range.ios",
-+┊   ┊158┊"{}/node_modules/ionic-angular/components/range/range.md",
-+┊   ┊159┊"{}/node_modules/ionic-angular/components/range/range.wp";
-+┊   ┊160┊
-+┊   ┊161┊@import
-+┊   ┊162┊"{}/node_modules/ionic-angular/components/refresher/refresher";
-+┊   ┊163┊
-+┊   ┊164┊@import
-+┊   ┊165┊"{}/node_modules/ionic-angular/components/scroll/scroll";
-+┊   ┊166┊
-+┊   ┊167┊@import
-+┊   ┊168┊"{}/node_modules/ionic-angular/components/searchbar/searchbar",
-+┊   ┊169┊"{}/node_modules/ionic-angular/components/searchbar/searchbar.ios",
-+┊   ┊170┊"{}/node_modules/ionic-angular/components/searchbar/searchbar.md",
-+┊   ┊171┊"{}/node_modules/ionic-angular/components/searchbar/searchbar.wp";
-+┊   ┊172┊
-+┊   ┊173┊@import
-+┊   ┊174┊"{}/node_modules/ionic-angular/components/segment/segment",
-+┊   ┊175┊"{}/node_modules/ionic-angular/components/segment/segment.ios",
-+┊   ┊176┊"{}/node_modules/ionic-angular/components/segment/segment.md",
-+┊   ┊177┊"{}/node_modules/ionic-angular/components/segment/segment.wp";
-+┊   ┊178┊
-+┊   ┊179┊@import
-+┊   ┊180┊"{}/node_modules/ionic-angular/components/select/select",
-+┊   ┊181┊"{}/node_modules/ionic-angular/components/select/select.ios",
-+┊   ┊182┊"{}/node_modules/ionic-angular/components/select/select.md",
-+┊   ┊183┊"{}/node_modules/ionic-angular/components/select/select.wp";
-+┊   ┊184┊
-+┊   ┊185┊@import
-+┊   ┊186┊"{}/node_modules/ionic-angular/components/show-hide-when/show-hide-when";
-+┊   ┊187┊
-+┊   ┊188┊@import
-+┊   ┊189┊"{}/node_modules/ionic-angular/components/slides/slides";
-+┊   ┊190┊
-+┊   ┊191┊@import
-+┊   ┊192┊"{}/node_modules/ionic-angular/components/spinner/spinner",
-+┊   ┊193┊"{}/node_modules/ionic-angular/components/spinner/spinner.ios",
-+┊   ┊194┊"{}/node_modules/ionic-angular/components/spinner/spinner.md",
-+┊   ┊195┊"{}/node_modules/ionic-angular/components/spinner/spinner.wp";
-+┊   ┊196┊
-+┊   ┊197┊@import
-+┊   ┊198┊"{}/node_modules/ionic-angular/components/tabs/tabs",
-+┊   ┊199┊"{}/node_modules/ionic-angular/components/tabs/tabs.ios",
-+┊   ┊200┊"{}/node_modules/ionic-angular/components/tabs/tabs.md",
-+┊   ┊201┊"{}/node_modules/ionic-angular/components/tabs/tabs.wp";
-+┊   ┊202┊
-+┊   ┊203┊@import
-+┊   ┊204┊"{}/node_modules/ionic-angular/components/toast/toast",
-+┊   ┊205┊"{}/node_modules/ionic-angular/components/toast/toast.ios",
-+┊   ┊206┊"{}/node_modules/ionic-angular/components/toast/toast.md",
-+┊   ┊207┊"{}/node_modules/ionic-angular/components/toast/toast.wp";
-+┊   ┊208┊
-+┊   ┊209┊@import
-+┊   ┊210┊"{}/node_modules/ionic-angular/components/toggle/toggle.ios",
-+┊   ┊211┊"{}/node_modules/ionic-angular/components/toggle/toggle.md",
-+┊   ┊212┊"{}/node_modules/ionic-angular/components/toggle/toggle.wp";
-+┊   ┊213┊
-+┊   ┊214┊@import
-+┊   ┊215┊"{}/node_modules/ionic-angular/components/toolbar/toolbar",
-+┊   ┊216┊"{}/node_modules/ionic-angular/components/toolbar/toolbar-button",
-+┊   ┊217┊"{}/node_modules/ionic-angular/components/toolbar/toolbar.ios",
-+┊   ┊218┊"{}/node_modules/ionic-angular/components/toolbar/toolbar.md",
-+┊   ┊219┊"{}/node_modules/ionic-angular/components/toolbar/toolbar.wp";
-+┊   ┊220┊
-+┊   ┊221┊@import
-+┊   ┊222┊"{}/node_modules/ionic-angular/components/typography/typography",
-+┊   ┊223┊"{}/node_modules/ionic-angular/components/typography/typography.ios",
-+┊   ┊224┊"{}/node_modules/ionic-angular/components/typography/typography.md",
-+┊   ┊225┊"{}/node_modules/ionic-angular/components/typography/typography.wp";
-+┊   ┊226┊
-+┊   ┊227┊@import
-+┊   ┊228┊"{}/node_modules/ionic-angular/components/virtual-scroll/virtual-scroll";
-+┊   ┊229┊
-+┊   ┊230┊
-+┊   ┊231┊// Platforms
-+┊   ┊232┊// --------------------------------------------------
-+┊   ┊233┊@import
-+┊   ┊234┊"{}/node_modules/ionic-angular/platform/cordova",
-+┊   ┊235┊"{}/node_modules/ionic-angular/platform/cordova.ios",
-+┊   ┊236┊"{}/node_modules/ionic-angular/platform/cordova.md",
-+┊   ┊237┊"{}/node_modules/ionic-angular/platform/cordova.wp";
-+┊   ┊238┊
-+┊   ┊239┊
-+┊   ┊240┊// Fonts
-+┊   ┊241┊// --------------------------------------------------
-+┊   ┊242┊@import
-+┊   ┊243┊"ionicons",
-+┊   ┊244┊"{}/node_modules/ionic-angular/fonts/noto-sans",
-+┊   ┊245┊"{}/node_modules/ionic-angular/fonts/roboto";
+@@ -7,7 +7,6 @@
+ ┊ 7┊ 7┊meteor-base@1.0.4             # Packages every Meteor app needs to have
+ ┊ 8┊ 8┊mobile-experience@1.0.4       # Packages for a great mobile UX
+ ┊ 9┊ 9┊mongo@1.1.14                   # The database Meteor supports right now
+-┊10┊  ┊blaze-html-templates@1.0.4 # Compile .html files into Meteor Blaze views
+ ┊11┊10┊reactive-var@1.0.11            # Reactive variable for tracker
+ ┊12┊11┊jquery@1.11.10                  # Helpful client-side library
+ ┊13┊12┊tracker@1.1.1                 # Meteor's client-side reactive programming library
 ```
 
-##### Added client/imports/theme/ionicons.scss
+##### Changed .meteor/versions
 ```diff
-@@ -0,0 +1,34 @@
-+┊  ┊ 1┊// Ionicons Icon Font CSS
-+┊  ┊ 2┊// --------------------------
-+┊  ┊ 3┊// Ionicons CSS for Ionic's <ion-icon> element
-+┊  ┊ 4┊// ionicons-icons.scss has the icons and their unicode characters
-+┊  ┊ 5┊
-+┊  ┊ 6┊$ionicons-font-path: $font-path !default;
-+┊  ┊ 7┊
-+┊  ┊ 8┊@import "{}/node_modules/ionicons/dist/scss/ionicons-icons";
-+┊  ┊ 9┊@import "{}/node_modules/ionicons/dist/scss/ionicons-variables";
-+┊  ┊10┊
-+┊  ┊11┊
-+┊  ┊12┊@font-face {
-+┊  ┊13┊  font-family: "Ionicons";
-+┊  ┊14┊  src: url("#{$ionicons-font-path}/ionicons.woff2?v=#{$ionicons-version}") format("woff2"),
-+┊  ┊15┊    url("#{$ionicons-font-path}/ionicons.woff?v=#{$ionicons-version}") format("woff"),
-+┊  ┊16┊    url("#{$ionicons-font-path}/ionicons.ttf?v=#{$ionicons-version}") format("truetype");
-+┊  ┊17┊  font-weight: normal;
-+┊  ┊18┊  font-style: normal;
-+┊  ┊19┊}
-+┊  ┊20┊
-+┊  ┊21┊ion-icon {
-+┊  ┊22┊  display: inline-block;
-+┊  ┊23┊
-+┊  ┊24┊  font-family: "Ionicons";
-+┊  ┊25┊  -moz-osx-font-smoothing: grayscale;
-+┊  ┊26┊  -webkit-font-smoothing: antialiased;
-+┊  ┊27┊  font-style: normal;
-+┊  ┊28┊  font-variant: normal;
-+┊  ┊29┊  font-weight: normal;
-+┊  ┊30┊  line-height: 1;
-+┊  ┊31┊  text-rendering: auto;
-+┊  ┊32┊  text-transform: none;
-+┊  ┊33┊  speak: none;
-+┊  ┊34┊}
+@@ -6,11 +6,8 @@
+ ┊ 6┊ 6┊base64@1.0.10
+ ┊ 7┊ 7┊binary-heap@1.0.10
+ ┊ 8┊ 8┊blaze@2.3.0
+-┊ 9┊  ┊blaze-html-templates@1.1.0
+ ┊10┊ 9┊blaze-tools@1.0.10
+ ┊11┊10┊boilerplate-generator@1.0.11
+-┊12┊  ┊caching-compiler@1.1.9
+-┊13┊  ┊caching-html-compiler@1.1.0
+ ┊14┊11┊callback-hook@1.0.10
+ ┊15┊12┊check@1.2.4
+ ┊16┊13┊ddp@1.2.5
 ```
-
-##### Added client/imports/theme/variables.scss
 ```diff
-@@ -0,0 +1,30 @@
-+┊  ┊ 1┊// Named Color Variables
-+┊  ┊ 2┊// --------------------------------------------------
-+┊  ┊ 3┊// Named colors makes it easy to reuse colors on various components.
-+┊  ┊ 4┊// It's highly recommended to change the default colors
-+┊  ┊ 5┊// to match your app's branding. Ionic uses a Sass map of
-+┊  ┊ 6┊// colors so you can add, rename and remove colors as needed.
-+┊  ┊ 7┊// The "primary" color is the only required color in the map.
-+┊  ┊ 8┊
-+┊  ┊ 9┊$colors: (
-+┊  ┊10┊  primary:    #387ef5,
-+┊  ┊11┊  secondary:  #32db64,
-+┊  ┊12┊  danger:     #f53d3d,
-+┊  ┊13┊  light:      #f4f4f4,
-+┊  ┊14┊  dark:       #222
-+┊  ┊15┊);
-+┊  ┊16┊
-+┊  ┊17┊// Components
-+┊  ┊18┊// --------------------------------------------------
-+┊  ┊19┊
-+┊  ┊20┊@import "components";
-+┊  ┊21┊
-+┊  ┊22┊
-+┊  ┊23┊// App Theme
-+┊  ┊24┊// --------------------------------------------------
-+┊  ┊25┊// Ionic apps can have different themes applied, which can
-+┊  ┊26┊// then be future customized. This import comes last
-+┊  ┊27┊// so that the above variables are used and Ionic's
-+┊  ┊28┊// default are overridden.
-+┊  ┊29┊
-+┊  ┊30┊@import "{}/node_modules/ionic-angular/themes/ionic.theme.default";
-```
-
-##### Changed client/main.scss
-```diff
-@@ -1,2 +1,5 @@
-+┊ ┊1┊// Theme
-+┊ ┊2┊@import "imports/theme/variables";
-+┊ ┊3┊
- ┊1┊4┊// App
- ┊2┊5┊@import "imports/app/app";🚫↵
+@@ -60,10 +57,6 @@
+ ┊60┊57┊spacebars-compiler@1.1.0
+ ┊61┊58┊standard-minifier-css@1.3.2
+ ┊62┊59┊standard-minifier-js@1.2.1
+-┊63┊  ┊templating@1.3.0
+-┊64┊  ┊templating-compiler@1.3.0
+-┊65┊  ┊templating-runtime@1.3.0
+-┊66┊  ┊templating-tools@1.1.0
+ ┊67┊60┊tracker@1.1.1
+ ┊68┊61┊ui@1.0.12
+ ┊69┊62┊underscore@1.0.10
 ```
 [}]: #
 
@@ -768,10 +473,9 @@ To learn more about **Mobile** in `Meteor` read the [*"Mobile"* chapter](https:/
     $ npm start
 
 The app should be running on port `3000`, and can be changed by specifying a `--port` option.
-[}]: #
-[{]: <region> (footer)
-[{]: <helper> (nav_step)
-| [< Intro](../../README.md) | [Next Step >](step2.md) |
+
+[{]: <helper> (nav_step next_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/chats-page" prev_ref="https://angular-meteor.com/tutorials/whatsapp2-tutorial")
+| [< Intro](https://angular-meteor.com/tutorials/whatsapp2-tutorial) | [Next Step >](https://angular-meteor.com/tutorials/whatsapp2/meteor/chats-page) |
 |:--------------------------------|--------------------------------:|
 [}]: #
-[}]: #
+

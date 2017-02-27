@@ -1,7 +1,5 @@
-[{]: <region> (header)
 # Step 4: Realtime Meteor server
-[}]: #
-[{]: <region> (body)
+
 Now that we have the initial chats layout and its component, we will take it a step further by providing the chats data from a server instead of having it locally.
 
 ## Collections
@@ -267,10 +265,9 @@ We will also re-implement the `removeChat` method using an actual `Meteor` colle
  ┊43┊38┊}🚫↵
 ```
 [}]: #
-[}]: #
-[{]: <region> (footer)
-[{]: <helper> (nav_step)
-| [< Previous Step](step3.md) | [Next Step >](step5.md) |
+
+[{]: <helper> (nav_step next_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/folder-structure" prev_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/rxjs")
+| [< Previous Step](https://angular-meteor.com/tutorials/whatsapp2/meteor/rxjs) | [Next Step >](https://angular-meteor.com/tutorials/whatsapp2/meteor/folder-structure) |
 |:--------------------------------|--------------------------------:|
 [}]: #
-[}]: #
+

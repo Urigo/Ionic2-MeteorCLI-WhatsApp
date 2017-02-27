@@ -1,7 +1,5 @@
-[{]: <region> (header)
-# Step 12: File Upload & Images
-[}]: #
-[{]: <region> (body)
+# Step 12: File Upload &amp; Images
+
 In this step, we will be using `Ionic 2` to pick up some images from our device's gallery, and we will use them to send pictures, and to set our profile picture.
 
 ## Image Picker
@@ -300,31 +298,19 @@ For now, we will add a stub for the `upload` method in the `PictureService` and 
 
 So as we said, need to handle storage of pictures that were sent by the client. First, we will create a `Picture` model so the compiler can recognize a picture object:
 
-[{]: <helper> (diff_step 12.10)
-#### Step 12.10: Create Picture model
+[{]: <helper> (diff_step 12.1)
+#### Step 12.1: Add cordova plugin for image picker
 
-##### Changed imports/models.ts
+##### Changed .meteor/cordova-plugins
 ```diff
-@@ -40,3 +40,19 @@
- ┊40┊40┊  lng: number;
- ┊41┊41┊  zoom: number;
- ┊42┊42┊}
-+┊  ┊43┊
-+┊  ┊44┊export interface Picture {
-+┊  ┊45┊  _id?: string;
-+┊  ┊46┊  complete?: boolean;
-+┊  ┊47┊  extension?: string;
-+┊  ┊48┊  name?: string;
-+┊  ┊49┊  progress?: number;
-+┊  ┊50┊  size?: number;
-+┊  ┊51┊  store?: string;
-+┊  ┊52┊  token?: string;
-+┊  ┊53┊  type?: string;
-+┊  ┊54┊  uploadedAt?: Date;
-+┊  ┊55┊  uploading?: boolean;
-+┊  ┊56┊  url?: string;
-+┊  ┊57┊  userId?: string;
-+┊  ┊58┊}
+@@ -1,6 +1,7 @@
+ ┊1┊1┊cordova-plugin-console@1.0.5
+ ┊2┊2┊cordova-plugin-device@1.1.4
+ ┊3┊3┊cordova-plugin-geolocation@2.4.1
++┊ ┊4┊cordova-plugin-image-picker@1.1.3
+ ┊4┊5┊cordova-plugin-splashscreen@4.0.1
+ ┊5┊6┊cordova-plugin-statusbar@2.2.1
+ ┊6┊7┊cordova-plugin-whitelist@1.3.1
 ```
 [}]: #
 
@@ -577,55 +563,36 @@ As you can see, we also bound the picture message to the `click` event, which me
 
 And now that we have that component ready, we will implement the `showPicture` method in the `MessagesPage` component, which will create a new instance of the `ShowPictureComponent`:
 
-[{]: <helper> (diff_step 12.20)
-#### Step 12.20: Implement showPicture method
+[{]: <helper> (diff_step 12.2)
+#### Step 12.2: Add server side fs packages
 
-##### Changed client/imports/pages/messages/messages.ts
+##### Changed .meteor/packages
 ```diff
-@@ -1,5 +1,5 @@
- ┊1┊1┊import { Component, OnDestroy, OnInit, ElementRef } from '@angular/core';
--┊2┊ ┊import { NavParams, PopoverController } from 'ionic-angular';
-+┊ ┊2┊import { NavParams, PopoverController, ModalController } from 'ionic-angular';
- ┊3┊3┊import { MeteorObservable } from 'meteor-rxjs';
- ┊4┊4┊import { _ } from 'meteor/underscore';
- ┊5┊5┊import * as Moment from 'moment';
+@@ -25,3 +25,5 @@
+ ┊25┊25┊accounts-base
+ ┊26┊26┊mys:accounts-phone
+ ┊27┊27┊reywood:publish-composite
++┊  ┊28┊jalik:ufs
++┊  ┊29┊jalik:ufs-gridfs
 ```
+
+##### Changed .meteor/versions
 ```diff
-@@ -9,6 +9,7 @@
- ┊ 9┊ 9┊import { PictureService } from '../../services/picture';
- ┊10┊10┊import { MessagesAttachmentsComponent } from './messages-attachments';
- ┊11┊11┊import { MessagesOptionsComponent } from './messages-options';
-+┊  ┊12┊import { ShowPictureComponent } from './show-picture';
- ┊12┊13┊import template from './messages.html';
- ┊13┊14┊
- ┊14┊15┊@Component({
-```
-```diff
-@@ -31,7 +32,8 @@
- ┊31┊32┊    navParams: NavParams,
- ┊32┊33┊    private el: ElementRef,
- ┊33┊34┊    private popoverCtrl: PopoverController,
--┊34┊  ┊    private pictureService: PictureService
-+┊  ┊35┊    private pictureService: PictureService,
-+┊  ┊36┊    private modalCtrl: ModalController
- ┊35┊37┊  ) {
- ┊36┊38┊    this.selectedChat = <Chat>navParams.get('chat');
- ┊37┊39┊    this.title = this.selectedChat.title;
-```
-```diff
-@@ -266,4 +268,12 @@
- ┊266┊268┊      zoom: Math.min(splitted[2] || 0, 19)
- ┊267┊269┊    };
- ┊268┊270┊  }
-+┊   ┊271┊
-+┊   ┊272┊  showPicture({ target }: Event) {
-+┊   ┊273┊    const modal = this.modalCtrl.create(ShowPictureComponent, {
-+┊   ┊274┊      pictureSrc: (<HTMLImageElement>target).src
-+┊   ┊275┊    });
-+┊   ┊276┊
-+┊   ┊277┊    modal.present();
-+┊   ┊278┊  }
- ┊269┊279┊}
+@@ -36,11 +36,14 @@
+ ┊36┊36┊htmljs@1.0.11
+ ┊37┊37┊http@1.1.8
+ ┊38┊38┊id-map@1.0.9
++┊  ┊39┊jalik:ufs@0.7.1_1
++┊  ┊40┊jalik:ufs-gridfs@0.1.4
+ ┊39┊41┊jquery@1.11.10
+ ┊40┊42┊launch-screen@1.1.0
+ ┊41┊43┊livedata@1.0.18
+ ┊42┊44┊localstorage@1.0.12
+ ┊43┊45┊logging@1.1.16
++┊  ┊46┊matb33:collection-hooks@0.8.4
+ ┊44┊47┊meteor@1.6.0
+ ┊45┊48┊meteor-base@1.0.4
+ ┊46┊49┊minifier-css@1.2.15
 ```
 [}]: #
 
@@ -884,23 +851,92 @@ We will also modify the `users` and `chats` publication, so each user will conta
 
 Since we already set up some collection hooks on the users collection, we can take it a step further by defining collection hooks on the chat collection, so whenever a chat is being removed, all its corresponding messages will be removed as well:
 
-[{]: <helper> (diff_step 12.30)
-#### Step 12.30: Add hook for removing unused messages
+[{]: <helper> (diff_step 12.3)
+#### Step 12.3: Create PictureService with utils for files
 
-##### Changed imports/collections/chats.ts
+##### Added client/imports/services/picture.ts
 ```diff
-@@ -1,4 +1,10 @@
- ┊ 1┊ 1┊import { MongoObservable } from 'meteor-rxjs';
- ┊ 2┊ 2┊import { Chat } from '../models';
-+┊  ┊ 3┊import { Messages } from './messages';
- ┊ 3┊ 4┊
--┊ 4┊  ┊export const Chats = new MongoObservable.Collection<Chat>('chats');🚫↵
-+┊  ┊ 5┊export const Chats = new MongoObservable.Collection<Chat>('chats');
-+┊  ┊ 6┊
-+┊  ┊ 7┊// Dispose unused messages
-+┊  ┊ 8┊Chats.collection.after.remove(function (userId, doc) {
-+┊  ┊ 9┊  Messages.collection.remove({ chatId: doc._id });
-+┊  ┊10┊});
+@@ -0,0 +1,80 @@
++┊  ┊ 1┊import { Injectable } from '@angular/core';
++┊  ┊ 2┊import { Platform } from 'ionic-angular';
++┊  ┊ 3┊import { ImagePicker } from 'ionic-native';
++┊  ┊ 4┊import { UploadFS } from 'meteor/jalik:ufs';
++┊  ┊ 5┊
++┊  ┊ 6┊@Injectable()
++┊  ┊ 7┊export class PictureService {
++┊  ┊ 8┊  constructor(private platform: Platform) {
++┊  ┊ 9┊  }
++┊  ┊10┊
++┊  ┊11┊  select(): Promise<Blob> {
++┊  ┊12┊    if (!this.platform.is('cordova') || !this.platform.is('mobile')) {
++┊  ┊13┊      return new Promise((resolve, reject) => {
++┊  ┊14┊        try {
++┊  ┊15┊          UploadFS.selectFile((file: File) => {
++┊  ┊16┊            resolve(file);
++┊  ┊17┊          });
++┊  ┊18┊        }
++┊  ┊19┊        catch (e) {
++┊  ┊20┊          reject(e);
++┊  ┊21┊        }
++┊  ┊22┊      });
++┊  ┊23┊    }
++┊  ┊24┊
++┊  ┊25┊    return ImagePicker.getPictures({maximumImagesCount: 1}).then((URL: string) => {
++┊  ┊26┊      return this.convertURLtoBlob(URL);
++┊  ┊27┊    });
++┊  ┊28┊  }
++┊  ┊29┊
++┊  ┊30┊  convertURLtoBlob(URL: string): Promise<Blob> {
++┊  ┊31┊    return new Promise((resolve, reject) => {
++┊  ┊32┊      const image = document.createElement('img');
++┊  ┊33┊
++┊  ┊34┊      image.onload = () => {
++┊  ┊35┊        try {
++┊  ┊36┊          const dataURI = this.convertImageToDataURI(image);
++┊  ┊37┊          const blob = this.convertDataURIToBlob(dataURI);
++┊  ┊38┊
++┊  ┊39┊          resolve(blob);
++┊  ┊40┊        }
++┊  ┊41┊        catch (e) {
++┊  ┊42┊          reject(e);
++┊  ┊43┊        }
++┊  ┊44┊      };
++┊  ┊45┊
++┊  ┊46┊      image.src = URL;
++┊  ┊47┊    });
++┊  ┊48┊  }
++┊  ┊49┊
++┊  ┊50┊  convertImageToDataURI(image: HTMLImageElement): string {
++┊  ┊51┊    // Create an empty canvas element
++┊  ┊52┊    const canvas = document.createElement('canvas');
++┊  ┊53┊    canvas.width = image.width;
++┊  ┊54┊    canvas.height = image.height;
++┊  ┊55┊
++┊  ┊56┊    // Copy the image contents to the canvas
++┊  ┊57┊    const context = canvas.getContext('2d');
++┊  ┊58┊    context.drawImage(image, 0, 0);
++┊  ┊59┊
++┊  ┊60┊    // Get the data-URL formatted image
++┊  ┊61┊    // Firefox supports PNG and JPEG. You could check image.src to
++┊  ┊62┊    // guess the original format, but be aware the using 'image/jpg'
++┊  ┊63┊    // will re-encode the image.
++┊  ┊64┊    const dataURL = canvas.toDataURL('image/png');
++┊  ┊65┊
++┊  ┊66┊    return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
++┊  ┊67┊  }
++┊  ┊68┊
++┊  ┊69┊  convertDataURIToBlob(dataURI): Blob {
++┊  ┊70┊    const binary = atob(dataURI);
++┊  ┊71┊
++┊  ┊72┊    // Write the bytes of the string to a typed array
++┊  ┊73┊    const charCodes = Object.keys(binary)
++┊  ┊74┊      .map<number>(Number)
++┊  ┊75┊      .map<number>(binary.charCodeAt.bind(binary));
++┊  ┊76┊
++┊  ┊77┊    // Build blob with typed array
++┊  ┊78┊    return new Blob([new Uint8Array(charCodes)], {type: 'image/jpeg'});
++┊  ┊79┊  }
++┊  ┊80┊}
 ```
 [}]: #
 
@@ -1110,10 +1146,9 @@ And we will do the same in the `NewChatComponent`:
 +┊   ┊114┊}
 ```
 [}]: #
-[}]: #
-[{]: <region> (footer)
-[{]: <helper> (nav_step)
-| [< Previous Step](step11.md) | [Next Step >](step13.md) |
+
+[{]: <helper> (nav_step next_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/native-mobile" prev_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/google-maps")
+| [< Previous Step](https://angular-meteor.com/tutorials/whatsapp2/meteor/google-maps) | [Next Step >](https://angular-meteor.com/tutorials/whatsapp2/meteor/native-mobile) |
 |:--------------------------------|--------------------------------:|
 [}]: #
-[}]: #
+

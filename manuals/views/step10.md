@@ -1,7 +1,5 @@
-[{]: <region> (header)
-# Step 10: Filter & Pagination
-[}]: #
-[{]: <region> (body)
+# Step 10: Filter &amp; Pagination
+
 ## Lazy-Loading
 
 In this step, we will implement a lazy-loading mechanism in the `MessagesPage`. Lazy loading means that only the necessary data will be loaded once we're promoted to the corresponding view, and it will keep loading, but gradually. In the `MessagesPage` case, we will only be provided with several messages once we enter the view, enough messages to fill all of it, and as we scroll up, we will provided with more messages. This way we can have a smooth experience, without the cost of fetching the entire messages collection. We will start by limiting our `messages` subscription into 30 documents:
@@ -327,10 +325,9 @@ Now we will modify the `users` subscription to accept the search-pattern, which 
  ┊18┊31┊Meteor.publish('messages', function(
 ```
 [}]: #
-[}]: #
-[{]: <region> (footer)
-[{]: <helper> (nav_step)
-| [< Previous Step](step9.md) | [Next Step >](step11.md) |
+
+[{]: <helper> (nav_step next_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/google-maps" prev_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/privacy")
+| [< Previous Step](https://angular-meteor.com/tutorials/whatsapp2/meteor/privacy) | [Next Step >](https://angular-meteor.com/tutorials/whatsapp2/meteor/google-maps) |
 |:--------------------------------|--------------------------------:|
 [}]: #
-[}]: #
+

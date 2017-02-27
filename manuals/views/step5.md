@@ -1,7 +1,5 @@
-[{]: <region> (header)
 # Step 5: Folder Structure
-[}]: #
-[{]: <region> (body)
+
 As you have probably noticed, our tutorial app has a strict modular structure at this point; There are no pure JavaScript files that are being bundled together and auto-executed, so Meteor's file loading conventions don't have any effect. Furthermore, every `.ts` file is being compiled into a separate CommonJS module, which we can then import whenever we desire.
 
 ## TypeScript
@@ -148,10 +146,9 @@ The following directories are also not loaded as part of your app code:
 - `packages/`: Used for local packages
 - `cordova-build-override/`: Used for [advanced mobile build customizations](mobile.html#advanced-build)
 - `programs`: For legacy reasons
-[}]: #
-[{]: <region> (footer)
-[{]: <helper> (nav_step)
+
+[{]: <helper> (nav_step next_step="https://angular-meteor.com/tutorials/whatsapp2/meteor/messages-page" prev_step="https://angular-meteor.com/tutorials/whatsapp2/meteor/meteor-server-side")
 | [< Previous Step](step4.md) | [Next Step >](step6.md) |
 |:--------------------------------|--------------------------------:|
 [}]: #
-[}]: #
+

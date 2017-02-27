@@ -1,7 +1,5 @@
-[{]: <region> (header)
-# Step 7: Users & Authentication
-[}]: #
-[{]: <region> (body)
+# Step 7: Users &amp; Authentication
+
 In this step we will authenticate and identify users in our app.
 
 Before we go ahead and start extending our app, we will add a few packages which will make our lives a bit less complex when it comes to authentication and users management.
@@ -242,78 +240,82 @@ For authentication purposes, we gonna create the following flow in our app:
 
 Let's start by creating the `LoginComponent`. In this component we will request an SMS verification right after a phone number has been entered:
 
-[{]: <helper> (diff_step 7.10)
-#### Step 7.10: Add login component
+[{]: <helper> (diff_step 7.1)
+#### Step 7.1: Add meteor packages to server side
 
-##### Added client/imports/pages/login/login.ts
+##### Changed .meteor/packages
 ```diff
-@@ -0,0 +1,66 @@
-+┊  ┊ 1┊import { Component } from '@angular/core';
-+┊  ┊ 2┊import { Alert, AlertController, NavController } from 'ionic-angular';
-+┊  ┊ 3┊import { PhoneService } from '../../services/phone';
-+┊  ┊ 4┊import template from './login.html';
-+┊  ┊ 5┊
-+┊  ┊ 6┊@Component({
-+┊  ┊ 7┊  template
-+┊  ┊ 8┊})
-+┊  ┊ 9┊export class LoginPage {
-+┊  ┊10┊  phone = '';
-+┊  ┊11┊
-+┊  ┊12┊  constructor(
-+┊  ┊13┊    private alertCtrl: AlertController,
-+┊  ┊14┊    private phoneService: PhoneService,
-+┊  ┊15┊    private navCtrl: NavController
-+┊  ┊16┊  ) {}
-+┊  ┊17┊
-+┊  ┊18┊  onInputKeypress({keyCode}: KeyboardEvent): void {
-+┊  ┊19┊    if (keyCode === 13) {
-+┊  ┊20┊      this.login();
-+┊  ┊21┊    }
-+┊  ┊22┊  }
-+┊  ┊23┊
-+┊  ┊24┊  login(phone: string = this.phone): void {
-+┊  ┊25┊    const alert = this.alertCtrl.create({
-+┊  ┊26┊      title: 'Confirm',
-+┊  ┊27┊      message: `Would you like to proceed with the phone number ${phone}?`,
-+┊  ┊28┊      buttons: [
-+┊  ┊29┊        {
-+┊  ┊30┊          text: 'Cancel',
-+┊  ┊31┊          role: 'cancel'
-+┊  ┊32┊        },
-+┊  ┊33┊        {
-+┊  ┊34┊          text: 'Yes',
-+┊  ┊35┊          handler: () => {
-+┊  ┊36┊            this.handleLogin(alert);
-+┊  ┊37┊            return false;
-+┊  ┊38┊          }
-+┊  ┊39┊        }
-+┊  ┊40┊      ]
-+┊  ┊41┊    });
-+┊  ┊42┊
-+┊  ┊43┊    alert.present();
-+┊  ┊44┊  }
-+┊  ┊45┊
-+┊  ┊46┊  handleLogin(alert: Alert): void {
-+┊  ┊47┊    alert.dismiss().then(() => {
-+┊  ┊48┊      return this.phoneService.verify(this.phone);
-+┊  ┊49┊    })
-+┊  ┊50┊    .catch((e) => {
-+┊  ┊51┊      this.handleError(e);
-+┊  ┊52┊    });
-+┊  ┊53┊  }
-+┊  ┊54┊
-+┊  ┊55┊  handleError(e: Error): void {
-+┊  ┊56┊    console.error(e);
-+┊  ┊57┊
-+┊  ┊58┊    const alert = this.alertCtrl.create({
-+┊  ┊59┊      title: 'Oops!',
-+┊  ┊60┊      message: e.message,
-+┊  ┊61┊      buttons: ['OK']
-+┊  ┊62┊    });
-+┊  ┊63┊
-+┊  ┊64┊    alert.present();
-+┊  ┊65┊  }
-+┊  ┊66┊}🚫↵
+@@ -23,3 +23,6 @@
+ ┊23┊23┊mobile-status-bar
+ ┊24┊24┊launch-screen
+ ┊25┊25┊check
++┊  ┊26┊npm-bcrypt
++┊  ┊27┊accounts-base
++┊  ┊28┊mys:accounts-phone
+```
+
+##### Changed .meteor/versions
+```diff
+@@ -1,3 +1,4 @@
++┊ ┊1┊accounts-base@1.2.14
+ ┊1┊2┊allow-deny@1.0.5
+ ┊2┊3┊angular2-compilers@0.6.6
+ ┊3┊4┊autopublish@1.0.7
+```
+```diff
+@@ -21,12 +22,14 @@
+ ┊21┊22┊ddp@1.2.5
+ ┊22┊23┊ddp-client@1.2.9
+ ┊23┊24┊ddp-common@1.2.8
++┊  ┊25┊ddp-rate-limiter@1.0.6
+ ┊24┊26┊ddp-server@1.2.10
+ ┊25┊27┊deps@1.0.12
+ ┊26┊28┊diff-sequence@1.0.7
+ ┊27┊29┊ecmascript@0.6.1
+ ┊28┊30┊ecmascript-runtime@0.3.15
+ ┊29┊31┊ejson@1.0.13
++┊  ┊32┊email@1.0.16
+ ┊30┊33┊es5-shim@4.6.15
+ ┊31┊34┊geojson-utils@1.0.10
+ ┊32┊35┊hot-code-push@1.0.4
+```
+```diff
+@@ -38,6 +41,7 @@
+ ┊38┊41┊jquery@1.11.10
+ ┊39┊42┊launch-screen@1.1.0
+ ┊40┊43┊livedata@1.0.18
++┊  ┊44┊localstorage@1.0.12
+ ┊41┊45┊logging@1.1.16
+ ┊42┊46┊meteor@1.6.0
+ ┊43┊47┊meteor-base@1.0.4
+```
+```diff
+@@ -49,19 +53,25 @@
+ ┊49┊53┊modules-runtime@0.7.8
+ ┊50┊54┊mongo@1.1.14
+ ┊51┊55┊mongo-id@1.0.6
++┊  ┊56┊mys:accounts-phone@0.0.21
+ ┊52┊57┊mys:fonts@0.0.2
++┊  ┊58┊npm-bcrypt@0.9.2
+ ┊53┊59┊npm-mongo@2.2.16_1
+ ┊54┊60┊observe-sequence@1.0.14
+ ┊55┊61┊ordered-dict@1.0.9
+ ┊56┊62┊promise@0.8.8
+ ┊57┊63┊random@1.0.10
++┊  ┊64┊rate-limit@1.0.6
+ ┊58┊65┊reactive-var@1.0.11
+ ┊59┊66┊reload@1.1.11
+ ┊60┊67┊retry@1.0.9
+ ┊61┊68┊routepolicy@1.0.12
++┊  ┊69┊service-configuration@1.0.11
++┊  ┊70┊sha@1.0.9
+ ┊62┊71┊shell-server@0.2.1
+ ┊63┊72┊spacebars@1.0.13
+ ┊64┊73┊spacebars-compiler@1.1.0
++┊  ┊74┊srp@1.0.10
+ ┊65┊75┊standard-minifier-css@1.3.2
+ ┊66┊76┊standard-minifier-js@1.2.1
+ ┊67┊77┊tracker@1.1.1
 ```
 [}]: #
 
@@ -661,22 +663,20 @@ Now we can make sure that anytime we login, we will be promoted to the `Verifica
 
 The last step in our authentication pattern is setting our profile. We will create a `Profile` interface so the compiler can recognize profile-data structures:
 
-[{]: <helper> (diff_step 7.20)
-#### Step 7.20: Add profile interface
+[{]: <helper> (diff_step 7.2)
+#### Step 7.2: Add accounts-phone settings
 
-##### Changed imports/models.ts
+##### Added private/settings.json
 ```diff
-@@ -1,3 +1,10 @@
-+┊  ┊ 1┊export const DEFAULT_PICTURE_URL = '/assets/default-profile-pic.svg';
-+┊  ┊ 2┊
-+┊  ┊ 3┊export interface Profile {
-+┊  ┊ 4┊  name?: string;
-+┊  ┊ 5┊  picture?: string;
-+┊  ┊ 6┊}
-+┊  ┊ 7┊
- ┊ 1┊ 8┊export enum MessageType {
- ┊ 2┊ 9┊  TEXT = <any>'text'
- ┊ 3┊10┊}
+@@ -0,0 +1,8 @@
++┊ ┊1┊{
++┊ ┊2┊  "accounts-phone": {
++┊ ┊3┊    "verificationWaitTime": 0,
++┊ ┊4┊    "verificationRetriesWaitTime": 0,
++┊ ┊5┊    "adminPhoneNumbers": ["+9721234567", "+97212345678", "+97212345679"],
++┊ ┊6┊    "phoneVerificationMasterCode": "1234"
++┊ ┊7┊  }
++┊ ┊8┊}🚫↵
 ```
 [}]: #
 
@@ -978,52 +978,20 @@ This requires us to update the `Message` model as well so `TypeScript` will reco
 
 Now we can determine if a message is ours or not in the `MessagePage` thanks to the `senderId` field we've just added:
 
-[{]: <helper> (diff_step 7.30)
-#### Step 7.30: Use actual ownership of the message
+[{]: <helper> (diff_step 7.3)
+#### Step 7.3: Updated NPM script
 
-##### Changed client/imports/pages/messages/messages.ts
+##### Changed package.json
 ```diff
-@@ -19,6 +19,7 @@
- ┊19┊19┊  message: string = '';
- ┊20┊20┊  autoScroller: MutationObserver;
- ┊21┊21┊  scrollOffset = 0;
-+┊  ┊22┊  senderId: string;
- ┊22┊23┊
- ┊23┊24┊  constructor(
- ┊24┊25┊    navParams: NavParams,
-```
-```diff
-@@ -27,6 +28,7 @@
- ┊27┊28┊    this.selectedChat = <Chat>navParams.get('chat');
- ┊28┊29┊    this.title = this.selectedChat.title;
- ┊29┊30┊    this.picture = this.selectedChat.picture;
-+┊  ┊31┊    this.senderId = Meteor.userId();
- ┊30┊32┊  }
- ┊31┊33┊
- ┊32┊34┊  private get messagesPageContent(): Element {
-```
-```diff
-@@ -56,8 +58,6 @@
- ┊56┊58┊  }
- ┊57┊59┊
- ┊58┊60┊  findMessagesDayGroups() {
--┊59┊  ┊    let isEven = false;
--┊60┊  ┊
- ┊61┊61┊    return Messages.find({
- ┊62┊62┊      chatId: this.selectedChat._id
- ┊63┊63┊    }, {
-```
-```diff
-@@ -68,8 +68,7 @@
- ┊68┊68┊
- ┊69┊69┊        // Compose missing data that we would like to show in the view
- ┊70┊70┊        messages.forEach((message) => {
--┊71┊  ┊          message.ownership = isEven ? 'mine' : 'other';
--┊72┊  ┊          isEven = !isEven;
-+┊  ┊71┊          message.ownership = this.senderId == message.senderId ? 'mine' : 'other';
- ┊73┊72┊
- ┊74┊73┊          return message;
- ┊75┊74┊        });
+@@ -2,7 +2,7 @@
+ ┊2┊2┊  "name": "Ionic2-MeteorCLI-WhatsApp",
+ ┊3┊3┊  "private": true,
+ ┊4┊4┊  "scripts": {
+-┊5┊ ┊    "start": "meteor run"
++┊ ┊5┊    "start": "meteor run --settings private/settings.json"
+ ┊6┊6┊  },
+ ┊7┊7┊  "dependencies": {
+ ┊8┊8┊    "@angular/common": "2.2.1",
 ```
 [}]: #
 
@@ -1314,10 +1282,8 @@ As for now, once you click on the options icon in the chats view, the popover sh
 ```
 [}]: #
 
-[}]: #
-[{]: <region> (footer)
-[{]: <helper> (nav_step)
-| [< Previous Step](step6.md) | [Next Step >](step8.md) |
+[{]: <helper> (nav_step next_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/chats-mutations" prev_ref="https://angular-meteor.com/tutorials/whatsapp2/meteor/messages-page")
+| [< Previous Step](https://angular-meteor.com/tutorials/whatsapp2/meteor/messages-page) | [Next Step >](https://angular-meteor.com/tutorials/whatsapp2/meteor/chats-mutations) |
 |:--------------------------------|--------------------------------:|
 [}]: #
-[}]: #
+
