@@ -128,7 +128,7 @@ Last but not least, we will add some basic [Cordova](https://cordova.apache.org/
     $ meteor add cordova:cordova-plugin-console@1.0.5
     $ meteor add cordova:cordova-plugin-statusbar@2.2.1
     $ meteor add cordova:cordova-plugin-device@1.1.4
-    $ meteor add cordova:ionic-plugin-keyboard@1.1.4
+    $ meteor add cordova:cordova-plugin-keyboard@1.1.4
     $ meteor add cordova:cordova-plugin-splashscreen@4.0.1
 
 > The least above was determined based on Ionic 2's [app base](https://github.com/driftyco/ionic2-app-base).
