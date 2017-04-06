@@ -45,19 +45,21 @@ Not all third-party libraries have any support for `Typescript` whatsoever, some
 
 Like most libraries, `Angular 2` is relied on peer dependencies, which we will have to make sure exist in our app by installing the following packages:
 
+    $ meteor npm install --save typescript
+    $ meteor npm install --save rxjs
+    $ meteor npm install --save zone.js
     $ meteor npm install --save @angular/common
     $ meteor npm install --save @angular/compiler
     $ meteor npm install --save @angular/compiler-cli
     $ meteor npm install --save @angular/core
+    $ meteor npm install --save @angular/platform-browser
     $ meteor npm install --save @angular/forms
     $ meteor npm install --save @angular/http
-    $ meteor npm install --save @angular/platform-browser
+    $ meteor npm install --save @angular/animations
     $ meteor npm install --save @angular/platform-browser-dynamic
     $ meteor npm install --save @angular/platform-server
     $ meteor npm install --save meteor-rxjs
     $ meteor npm install --save reflect-metadata
-    $ meteor npm install --save rxjs
-    $ meteor npm install --save zone.js
     $ meteor npm install --save-dev @types/meteor
     $ meteor npm install --save-dev @types/meteor-accounts-phone
     $ meteor npm install --save-dev @types/underscore
