@@ -125,6 +125,10 @@ To add mobile support, select the platform(s) you want and run the following com
     # OR / AND
     $ meteor add-platform android
 
+If you face the error **Cannot find module 'is-property'** (probably on Windows), as a workaround (as discussed [here](https://github.com/electron-userland/electron-prebuilt/issues/40)) you will need to run
+
+    $ meteor npm install is-property -g
+
 To run an app in the emulator use:
 
     $ meteor run ios
