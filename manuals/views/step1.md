@@ -472,7 +472,7 @@ To learn more about **Mobile** in `Meteor` read the [*"Mobile"* chapter](https:/
 
 `Ionic` apps are still usable in the browser. You can run them using the command:
 
-    $ meteor start
+    $ meteor run
     # OR
     $ npm start
 
