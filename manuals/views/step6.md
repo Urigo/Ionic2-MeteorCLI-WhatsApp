@@ -600,36 +600,35 @@ It requires us to add the following package in the server:
 
 And we're gonna use it in the `addMessage` method we've just defined:
 
-[{]: <helper> (diff_step 6.15)
-#### Step 6.15: Implement Meteor method for adding a new message
 
-##### Added server/methods.ts
+[{]: <helper> (diffStep 6.17)
+
+#### [Step 6.17: Use check to add validations](https://github.com/Urigo/Ionic2CLI-Meteor-WhatsApp/commit/f1d5089)
+
+##### Changed api&#x2F;server&#x2F;methods.ts
 ```diff
-@@ -0,0 +1,23 @@
-+┊  ┊ 1┊import { Meteor } from 'meteor/meteor';
-+┊  ┊ 2┊import { Chats, Messages } from '../imports/collections';
-+┊  ┊ 3┊import { MessageType } from '../imports/models';
-+┊  ┊ 4┊
-+┊  ┊ 5┊Meteor.methods({
-+┊  ┊ 6┊  addMessage(type: MessageType, chatId: string, content: string) {
-+┊  ┊ 7┊    const chatExists = !!Chats.collection.find(chatId).count();
-+┊  ┊ 8┊
-+┊  ┊ 9┊    if (!chatExists) {
-+┊  ┊10┊      throw new Meteor.Error('chat-not-exists',
-+┊  ┊11┊        'Chat doesn\'t exist');
-+┊  ┊12┊    }
-+┊  ┊13┊
-+┊  ┊14┊    return {
-+┊  ┊15┊      messageId: Messages.collection.insert({
-+┊  ┊16┊        chatId: chatId,
-+┊  ┊17┊        content: content,
-+┊  ┊18┊        createdAt: new Date(),
-+┊  ┊19┊        type: type
-+┊  ┊20┊      })
-+┊  ┊21┊    };
-+┊  ┊22┊  }
-+┊  ┊23┊});🚫↵
+@@ -1,9 +1,19 @@
+ ┊ 1┊ 1┊import { Chats } from './collections/chats';
+ ┊ 2┊ 2┊import { Messages } from './collections/messages';
+ ┊ 3┊ 3┊import { MessageType } from './models';
++┊  ┊ 4┊import { check, Match } from 'meteor/check';
++┊  ┊ 5┊
++┊  ┊ 6┊const nonEmptyString = Match.Where((str) => {
++┊  ┊ 7┊  check(str, String);
++┊  ┊ 8┊  return str.length > 0;
++┊  ┊ 9┊});
+ ┊ 4┊10┊
+ ┊ 5┊11┊Meteor.methods({
+ ┊ 6┊12┊  addMessage(type: MessageType, chatId: string, content: string) {
++┊  ┊13┊    check(type, Match.OneOf(String, [ MessageType.TEXT ]));
++┊  ┊14┊    check(chatId, nonEmptyString);
++┊  ┊15┊    check(content, nonEmptyString);
++┊  ┊16┊
+ ┊ 7┊17┊    const chatExists = !!Chats.collection.find(chatId).count();
+ ┊ 8┊18┊
+ ┊ 9┊19┊    if (!chatExists) {
 ```
+
 [}]: #
 
 ## Auto Scroll
