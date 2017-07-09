@@ -559,12 +559,7 @@ And now that it is bound to the component we can safely implement its handler:
  ┊70┊70┊  }
 +┊  ┊71┊
 +┊  ┊72┊  removeChat(chat: Chat): void {
-+┊  ┊73┊    this.chats = this.chats.map<Chat[]>(chatsArray => {
-+┊  ┊74┊      const chatIndex = chatsArray.indexOf(chat);
-+┊  ┊75┊      chatsArray.splice(chatIndex, 1);
-+┊  ┊76┊
-+┊  ┊77┊      return chatsArray;
-+┊  ┊78┊    });
++┊  ┊73┊    this.chats = this.chats.map<Chat[]>(chatsArray => chatsArray.filter(thisChat => thisChat != chat));
 +┊  ┊79┊  }
  ┊71┊80┊}🚫↵
 ```
