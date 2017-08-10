@@ -1,4 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MomentModule } from 'angular2-moment';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -33,6 +34,7 @@ import { MyApp } from './app.component';
     ShowPictureComponent
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp),
     MomentModule,
     AgmCoreModule.forRoot({
@@ -60,4 +62,4 @@ import { MyApp } from './app.component';
     PictureService
   ]
 })
-export class AppModule {}
+export class AppModule { }

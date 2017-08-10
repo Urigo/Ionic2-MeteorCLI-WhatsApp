@@ -17,7 +17,7 @@
     "stripInternal": true,
     "noImplicitAny": false,
     "types": [
-      "meteor-typings",
+      "@types/meteor",
       "@types/underscore",
       "@types/meteor-accounts-phone",
       "@types/meteor-publish-composite",
