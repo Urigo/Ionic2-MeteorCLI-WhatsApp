@@ -406,6 +406,7 @@ Configuration is pretty easy, you will catch it by just looking on an example:
 ```diff
 @@ -1,15 +1,20 @@
  ┊ 1┊ 1┊import { NgModule, ErrorHandler } from '@angular/core';
+        import { BrowserModule } from '@angular/platform-browser';
 +┊  ┊ 2┊import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
  ┊ 2┊ 3┊import { MyApp } from './app.component';
  ┊ 3┊ 4┊
@@ -415,6 +416,7 @@ Configuration is pretty easy, you will catch it by just looking on an example:
  ┊ 7┊ 8┊  ],
 +┊  ┊ 9┊  imports: [
 +┊  ┊10┊    IonicModule.forRoot(MyApp),
+            BrowserModule,
 +┊  ┊11┊  ],
 +┊  ┊12┊  bootstrap: [IonicApp],
  ┊ 8┊13┊  entryComponents: [
